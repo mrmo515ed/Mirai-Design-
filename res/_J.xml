@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  _J.xml — صف مستخدم (أعضاء المجموعات / المتابعون) · إعادة تصميم
+  ──────────────────────────────────────────────────────────────────────
+  PRESERVED: ConstraintLayout قابل للنقر + GlowProfileView 56dp + الاسم
+  + شارة التوثيق + الوصف + شارة الحالة — نفس الـ ids والسلوك.
+  CHANGED: شارة «متصل» نيون #0DF233 ← حاوية Success دلالية ·
+  الاسم sans-serif-black ← TitleMedium موحّد · كل الألوان توكنات.
+  ══════════════════════════════════════════════════════════════════════
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/userRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingHorizontal="@dimen/space_sm"
+    android:paddingVertical="@dimen/space_m">
+
+    <com.mirai.anime.core.ui.widgets.GlowProfileView
+        android:id="@id/userRowAvatar"
+        android:layout_width="@dimen/avatar_l"
+        android:layout_height="@dimen/avatar_l"
+        app:innerPadding="2dp"
+        app:strokeWidth="@dimen/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@id/userRowName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_l"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/userRowAvatar"
+        app:layout_constraintTop_toTopOf="@id/userRowAvatar"
+        tools:text="يوسف" />
+
+    <ImageView
+        android:id="@id/userRowVerified"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="@dimen/space_s"
+        android:importantForAccessibility="no"
+        android:src="@drawable/mirai_ic_check"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/userRowName"
+        app:layout_constraintStart_toEndOf="@id/userRowName"
+        app:layout_constraintTop_toTopOf="@id/userRowName"
+        app:tint="@color/mirai_primary"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@id/userRowSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xs"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Mirai.Caption"
+        app:layout_constraintStart_toStartOf="@id/userRowName"
+        app:layout_constraintTop_toBottomOf="@id/userRowName"
+        tools:text="3 منشورات مشتركة" />
+
+    <TextView
+        android:id="@id/userRowStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mirai_bg_chip_success"
+        android:paddingHorizontal="@dimen/space_sm"
+        android:paddingVertical="@dimen/space_s"
+        android:textAppearance="@style/TextAppearance.Mirai.Caption"
+        android:textColor="@color/mirai_on_success_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="● متصل" />
+</androidx.constraintlayout.widget.ConstraintLayout>

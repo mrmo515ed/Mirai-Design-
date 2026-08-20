@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MIRAI DESIGN SYSTEM — SHAPE SCALE (Material shape compatibility) -->
+<resources>
+    <style name="ShapeAppearance.Mirai.XS" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_xs</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.S" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_s</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.M" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_m</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.L" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_l</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.XL" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_xl</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.Full" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearance.Mirai.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_full</item>
+    </style>
+    <!-- Cinematic poster: soft top corners -->
+    <style name="ShapeAppearance.Mirai.Poster" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_m</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_hero</item>
+        <item name="cornerSizeTopRight">@dimen/radius_hero</item>
+    </style>
+    <!-- Bottom sheet: rounded top only -->
+    <style name="ShapeAppearance.Mirai.Sheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_xl</item>
+        <item name="cornerSizeTopRight">@dimen/radius_xl</item>
+    </style>
+</resources>

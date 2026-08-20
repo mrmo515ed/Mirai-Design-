@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mirai · base dialog (confirm / transfer ticket / moderation) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mirai_bg_dialog"
+    android:orientation="vertical"
+    android:padding="@dimen/space_xl">
+
+    <ImageView
+        android:id="@id/dialogIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:importantForAccessibility="no"
+        android:src="@drawable/mirai_ic_info"
+        app:tint="@color/mirai_primary"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+        tools:text="تأكيد تحويل التذكرة" />
+
+    <TextView
+        android:id="@id/dialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_sm"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.Mirai.Body"
+        tools:text="سيتم تحويل هذه التذكرة إلى مشرف آخر. هل أنت متأكد؟" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_xl"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/dialogNegativeButton"
+            style="@style/Widget.Mirai.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/dialogPositiveButton"
+            style="@style/Widget.Mirai.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_m"
+            android:layout_weight="1"
+            android:text="@string/confirm" />
+    </LinearLayout>
+</LinearLayout>

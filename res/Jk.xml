@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════════
+  MIRAI · ANIME DETAILS — PREMIUM REDESIGN  (Jk.xml rebuilt on the DS)
+  ──────────────────────────────────────────────────────────────────────────
+  PRESERVED (do not touch): full view hierarchy, every view id, parallax
+  collapse behavior, shimmer skeleton, StateLayout, YouTubePlayerView,
+  IndicatorSeekBar, all RecyclerViews & click surfaces. See layouts/IDS_MAP.md
+
+  IMPROVED:
+   · Cinematic hero — 3-stop scrim (was 2-stop #B3000000), 26sp display title
+   · Poster card 110×165 (2:3), radius 12, elevation 12, hairline border
+   · Chips unified (rating=gold, status=success, genre=neutral outline)
+   · CTA neon-green #00FF87 → Primary #00A3FF 52dp pill; share 48dp
+   · Metadata grid: 12sp label / 13sp value → Label + BodySmall tokens
+   · Rating strip: one gold (#FFC53D) instead of orange/green mix
+   · Section headers + «عرض الكل» unified via styles
+   · Trailer: radius 16, elevation 2, hairline border
+   · RTL-safe: start/end everywhere · a11y: contentDescription on all icons
+  ══════════════════════════════════════════════════════════════════════════
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/animeDetailsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mirai_bg"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@id/animeDetailsAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:statusBarForeground="@drawable/mirai_scrim_hero_top"
+        android:theme="@style/Theme.Mirai">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@id/animeDetailsCollapsing"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hero_height"
+            app:contentScrim="@color/mirai_bg"
+            app:scrimAnimationDuration="300"
+            app:titleEnabled="false"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <!-- ════════ CINEMATIC HERO ════════ -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
+
+                <!-- Backdrop keyart -->
+                <ImageView
+                    android:id="@id/animeDetailsBackdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:importantForAccessibility="no"
+                    tools:src="@tools:sample/avatars" />
+
+                <!-- 3-stop cinematic scrim: image → 60% black → background -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/hero_scrim_height"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/mirai_scrim_hero" />
+
+                <!-- Hero lockup: poster · titles · chips · actions -->
+                <LinearLayout
+                    android:id="@id/animeDetailsHeroContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/space_xl"
+                    android:paddingBottom="@dimen/space_l">
+
+                    <!-- Poster — floating card, 2:3, soft border -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="@dimen/poster_width_m"
+                        android:layout_height="@dimen/poster_height_m"
+                        android:layout_marginBottom="@dimen/space_m"
+                        app:cardBackgroundColor="@color/mirai_elevated"
+                        app:cardCornerRadius="@dimen/radius_m"
+                        app:cardElevation="@dimen/elev_poster">
+
+                        <ImageView
+                            android:id="@id/animeDetailsPoster"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@null"
+                            tools:src="@tools:sample/avatars" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Title (romaji / arabic display) -->
+                    <TextView
+                        android:id="@id/animeDetailsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Mirai.Display"
+                        android:shadowColor="@color/mirai_scrim_hero_mid"
+                        android:shadowDx="0" android:shadowDy="2" android:shadowRadius="8"
+                        tools:text="Sousou no Frieren" />
+
+                    <!-- Japanese title -->
+                    <TextView
+                        android:id="@id/animeDetailsTitleJp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                        android:shadowColor="@color/mirai_scrim_hero_top"
+                        android:shadowDx="0" android:shadowDy="1" android:shadowRadius="4"
+                        tools:text="葬送のフリーレン" />
+
+                    <!-- Chips: rating(gold) · status(success) · format · season -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_sm"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@id/animeDetailsScoreChip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mirai_bg_chip_rating"
+                            android:paddingHorizontal="@dimen/space_sm"
+                            android:paddingVertical="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                            android:textColor="@color/mirai_on_rating_container"
+                            android:drawablePadding="@dimen/space_s"
+                            app:drawableStartCompat="@drawable/mirai_ic_star"
+                            app:drawableTint="@color/mirai_rating"
+                            tools:text="8.9" />
+
+                        <TextView
+                            android:id="@id/animeDetailsStatusChip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_sm"
+                            android:background="@drawable/mirai_bg_chip"
+                            android:paddingHorizontal="@dimen/space_sm"
+                            android:paddingVertical="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                            android:textColor="@color/mirai_text_secondary"
+                            tools:text="يُعرض الآن" />
+
+                        <TextView
+                            android:id="@id/animeDetailsFormatChip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_sm"
+                            android:background="@drawable/mirai_bg_chip"
+                            android:paddingHorizontal="@dimen/space_sm"
+                            android:paddingVertical="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                            android:textColor="@color/mirai_text_secondary"
+                            tools:text="TV · 24 حلقة" />
+
+                        <TextView
+                            android:id="@id/animeDetailsYearChip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_sm"
+                            android:background="@drawable/mirai_bg_chip"
+                            android:paddingHorizontal="@dimen/space_sm"
+                            android:paddingVertical="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                            android:textColor="@color/mirai_text_secondary"
+                            tools:text="2023" />
+                    </LinearLayout>
+
+                    <!-- Main actions: add-to-library + share -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_l"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@id/animeDetailsAddToListBtn"
+                            style="@style/Widget.Mirai.Button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/add_to_library"
+                            app:cornerRadius="@dimen/radius_full"
+                            app:icon="@drawable/mirai_ic_bookmark"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@id/animeDetailsShareBtn"
+                            style="@style/Widget.Mirai.Button.Icon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="@dimen/space_m"
+                            android:contentDescription="@string/share"
+                            app:icon="@drawable/mirai_ic_share"
+                            app:iconSize="20dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Loading skeleton -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@id/animeDetailsShimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:shimmer_auto_start="true">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/mirai_shimmer_base" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </FrameLayout>
+
+            <!-- Pinned toolbar: back + collapsed title -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@id/animeDetailsToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Theme.Mirai.Cinematic"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/space_l">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@id/animeDetailsBackBtn"
+                        style="@style/Widget.Mirai.Button.Icon"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:contentDescription="@string/back"
+                        app:icon="@drawable/mirai_ic_back"
+                        app:iconSize="20dp" />
+
+                    <TextView
+                        android:id="@id/animeDetailsCollapsedTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/space_l"
+                        android:layout_toEndOf="@id/animeDetailsBackBtn"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+                        android:visibility="gone"
+                        tools:text="Sousou no Frieren" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ════════ SCROLLING CONTENT ════════ -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@id/animeDetailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/space_huge">
+
+            <!-- Genre chips rail -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/animeDetailsGenresRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_l"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_chip_genre" />
+
+            <!-- ══ القصة ══ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_l">
+
+                <TextView
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="@string/story" />
+
+                <TextView
+                    android:id="@id/animeDetailsDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:lineSpacingExtra="4dp"
+                    android:textAppearance="@style/TextAppearance.Mirai.Body"
+                    tools:text="بعد هزيمة ملك الشياطين، تنطلق الساحرة الخالدة فريرن في رحلة جديدة لتتعلم معنى الإنسانية…" />
+            </LinearLayout>
+
+            <!-- ══ الاستوديوهات ══ -->
+            <LinearLayout
+                android:id="@id/animeDetailsStudiosSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/space_sm"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/production_studios" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/animeDetailsStudiosRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingHorizontal="@dimen/screen_gutter"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2" />
+            </LinearLayout>
+
+            <!-- ══ المعلومات ══ (2-col metadata grid) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/screen_gutter"
+                android:layout_marginTop="@dimen/space_m"
+                android:layout_marginBottom="@dimen/space_l"
+                android:orientation="vertical">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="2"
+                    android:rowOrderPreserved="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="@dimen/space_m"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextAppearance.Mirai.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/season_year" />
+                        <TextView
+                            android:id="@id/animeDetailsMetaSeason"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.BodySmall"
+                            android:textColor="@color/mirai_text_primary"
+                            tools:text="خريف 2023" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="@dimen/space_m"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextAppearance.Mirai.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/source" />
+                        <TextView
+                            android:id="@id/animeDetailsMetaSource"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.BodySmall"
+                            android:textColor="@color/mirai_text_primary"
+                            tools:text="مانجا" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextAppearance.Mirai.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rank_members" />
+                        <TextView
+                            android:id="@id/animeDetailsMetaRank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.BodySmall"
+                            android:textColor="@color/mirai_text_primary"
+                            tools:text="#12 · 3.4M" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextAppearance.Mirai.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status" />
+                        <TextView
+                            android:id="@id/animeDetailsMetaStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xs"
+                            android:textAppearance="@style/TextAppearance.Mirai.BodySmall"
+                            android:textColor="@color/mirai_text_primary"
+                            tools:text="مكتمل" />
+                    </LinearLayout>
+                </GridLayout>
+
+                <!-- ══ Rating strip card ══ -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_l"
+                    android:background="@drawable/mirai_bg_card_tonal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_l">
+
+                    <!-- External · community · favorites -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/mirai_ic_star"
+                                app:tint="@color/mirai_rating" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_s"
+                                android:orientation="horizontal"
+                                android:layoutDirection="ltr">
+                                <TextView
+                                    android:id="@id/animeDetailsScoreExternal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.Mirai.Score"
+                                    tools:text="8.9" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                    android:text="/10" />
+                            </LinearLayout>
+                            <TextView
+                                android:id="@id/animeDetailsScoreExternalLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_xs"
+                                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                tools:text="تقييم MAL" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/divider"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/mirai_bg_stat_divider" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:id="@id/animeDetailsScoreCommunityIcon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/mirai_ic_users"
+                                app:tint="@color/mirai_primary" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_s"
+                                android:orientation="horizontal"
+                                android:layoutDirection="ltr">
+                                <TextView
+                                    android:id="@id/animeDetailsScoreCommunity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.Mirai.Score"
+                                    android:textColor="@color/mirai_primary"
+                                    tools:text="8.4" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                    android:text="/10" />
+                            </LinearLayout>
+                            <TextView
+                                android:id="@id/animeDetailsScoreCommunityLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_xs"
+                                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                tools:text="تقييم المجتمع" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/divider"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/mirai_bg_stat_divider" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:importantForAccessibility="no"
+                                android:src="@drawable/mirai_ic_heart"
+                                app:tint="@color/mirai_error" />
+                            <TextView
+                                android:id="@id/animeDetailsFavorites"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_s"
+                                android:textAppearance="@style/TextAppearance.Mirai.Score"
+                                tools:text="214K" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_xs"
+                                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                android:text="@string/crowd_favorites" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider"
+                        android:layout_marginVertical="@dimen/space_m"
+                        android:background="@drawable/mirai_bg_divider" />
+
+                    <!-- Your rating -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@id/animeDetailsYourRatingLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Mirai.BodySmall"
+                            android:textColor="@color/mirai_text_primary"
+                            android:textStyle="bold"
+                            android:text="@string/your_rating" />
+
+                        <com.warkiz.widget.IndicatorSeekBar
+                            android:id="@id/animeDetailsRatingSeek"
+                            style="@style/Widget.Mirai.SeekBar.Rating"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingHorizontal="@dimen/space_m"
+                            app:isb_clear_default_padding="false"
+                            app:isb_max="10"
+                            app:isb_min="1"
+                            app:isb_only_thumb_draggable="false"
+                            app:isb_progress="8"
+                            app:isb_seek_smoothly="true"
+                            app:isb_show_indicator="none"
+                            app:isb_show_tick_marks_type="oval"
+                            app:isb_show_tick_texts="true"
+                            app:isb_thumb_size="@dimen/rating_seek_thumb"
+                            app:isb_tick_marks_size="5dp"
+                            app:isb_tick_texts_size="10sp"
+                            app:isb_ticks_count="10"
+                            app:isb_track_background_size="3dp"
+                            app:isb_track_progress_size="4dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@id/animeDetailsDeleteRatingBtn"
+                            style="@style/Widget.Mirai.Button.Icon"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:visibility="gone"
+                            android:contentDescription="@string/delete_rating"
+                            app:icon="@drawable/mirai_ic_delete"
+                            app:iconSize="18dp"
+                            app:iconTint="@color/mirai_error" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ══ الحلقات ══ -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:paddingTop="@dimen/space_sm">
+
+                <TextView
+                    android:id="@id/animeDetailsEpisodesTitle"
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/episodes" />
+
+                <TextView
+                    android:id="@id/animeDetailsEpisodesSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/space_sm"
+                    android:textAppearance="@style/TextAppearance.Mirai.Action"
+                    android:visibility="gone"
+                    android:text="@string/see_all"
+                    tools:visibility="visible" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/animeDetailsEpisodesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                tools:itemCount="3" />
+
+            <!-- ══ الشخصيات ══ -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:paddingTop="@dimen/space_xl">
+
+                <TextView
+                    android:id="@id/animeDetailsCharactersTitle"
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="0dp" android:paddingBottom="0dp"
+                    android:text="@string/main_characters" />
+
+                <TextView
+                    android:id="@id/animeDetailsCharactersSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/space_sm"
+                    android:textAppearance="@style/TextAppearance.Mirai.Action"
+                    android:visibility="gone"
+                    android:text="@string/see_all"
+                    tools:visibility="visible" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/animeDetailsCharactersRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4" />
+
+            <!-- ══ طاقم العمل ══ -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:paddingTop="@dimen/space_xl">
+
+                <TextView
+                    android:id="@id/animeDetailsStaffTitle"
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingTop="0dp" android:paddingBottom="0dp"
+                    android:text="@string/staff" />
+
+                <TextView
+                    android:id="@id/animeDetailsStaffSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/space_sm"
+                    android:textAppearance="@style/TextAppearance.Mirai.Action"
+                    android:visibility="gone"
+                    android:text="@string/see_all"
+                    tools:visibility="visible" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/animeDetailsStaffRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingHorizontal="@dimen/screen_gutter"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4" />
+
+            <!-- ═ـ إحصائيات ══ -->
+            <TextView
+                android:id="@id/animeDetailsStatsTitle"
+                style="@style/Widget.Mirai.SectionHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xl"
+                android:text="@string/stats" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/animeDetailsStatsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_sm"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3" />
+
+            <!-- ══ العرض التشويقي ══ -->
+            <LinearLayout
+                android:id="@id/animeDetailsTrailerSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xxl"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/screen_gutter">
+
+                <TextView
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp" android:paddingEnd="0dp"
+                    android:paddingBottom="@dimen/space_m"
+                    android:text="@string/official_trailer" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/mirai_card"
+                    app:cardCornerRadius="@dimen/radius_l"
+                    app:cardElevation="@dimen/elev_card"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="false">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@id/animeDetailsTrailerPlayer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/official_trailer"
+                        app:autoPlay="false" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- ══ أعمال ذات صلة ══ -->
+            <LinearLayout
+                android:id="@id/animeDetailsRelatedSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xxl"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@id/animeDetailsRelatedTitle"
+                    style="@style/Widget.Mirai.SectionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/related_anime" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/animeDetailsRelatedRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingHorizontal="@dimen/screen_gutter"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Empty / Error state -->
+    <com.mirai.anime.core.ui.StateLayout
+        android:id="@id/animeDetailsState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:stateEmptyText="@string/anime_not_found"
+        tools:visibility="gone" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MIRAI DESIGN SYSTEM — STRING DEFAULTS
+  Values mirror the exact Arabic literals found in the original layouts
+  (Jk.xml, AB.xml …). If your project already defines these keys, keep yours —
+  these are fallback defaults for the redesigned layouts.
+-->
+<resources>
+    <string name="add_to_library">أضف للمكتبة</string>
+    <string name="share">مشاركة</string>
+    <string name="back">رجوع</string>
+    <string name="story">القصة</string>
+    <string name="production_studios">الاستوديوهات المنتجة</string>
+    <string name="season_year">الموسم / السنة</string>
+    <string name="source">المصدر الأصلي</string>
+    <string name="rank_members">الترتيب / المشاهدات</string>
+    <string name="status">حالة العرض</string>
+    <string name="crowd_favorites">مفضل للجمهور</string>
+    <string name="your_rating">تقييمك:</string>
+    <string name="delete_rating">حذف التقييم</string>
+    <string name="episodes">الحلقات</string>
+    <string name="see_all">عرض الكل</string>
+    <string name="main_characters">الشخصيات الرئيسية</string>
+    <string name="staff">طاقم العمل</string>
+    <string name="stats">الإحصائيات</string>
+    <string name="official_trailer">العرض التشويقي الرسمي</string>
+    <string name="related_anime">أعمال ذات صلة</string>
+    <string name="anime_not_found">هذا الأنمي غير موجود</string>
+    <string name="create">إنشاء</string>
+    <string name="cancel">تراجع</string>
+    <string name="confirm">تأكيد</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="home">الرئيسية</string>
+    <string name="explore">استكشاف</string>
+    <string name="posts">المنشورات</string>
+    <string name="profile">الملف الشخصي</string>
+</resources>

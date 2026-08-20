@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MIRAI DESIGN SYSTEM — TYPOGRAPHY  v1.0
+  App fonts (bundled): Noto Sans Arabic UI + Roboto Medium.
+  Formalizes the de-facto scale found in the audit (14/12/13/16 dominant)
+  and KILLS the outliers (8sp, 9sp, 11sp body text → 12sp floor).
+  Weights: Regular 400 · Medium 500 (Roboto Medium / Noto Arabic Medium) ·
+           Bold 700 for titles only. lineHeight in sp.
+  Arabic-first: letterSpacing stays 0em for Arabic runs (tracking breaks
+  Arabic joining); letter_spaced styles are Latin/numeric only.
+-->
+<resources>
+
+    <!-- ═══════════ FONT FAMILIES ═══════════ -->
+    <string name="font_default" translatable="false">sans-serif</string>
+    <string name="font_medium" translatable="false">sans-serif-medium</string>
+
+    <!-- ═══════════ TEXT APPEARANCES ═══════════ -->
+    <!-- Display: anime title on details hero -->
+    <style name="TextAppearance.Mirai.Display" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">26sp</item>
+        <item name="android:lineHeight">34sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Screen titles -->
+    <style name="TextAppearance.Mirai.TitleXL" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineHeight">28sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Section headers («الحلقات», «الشخصيات», …) -->
+    <style name="TextAppearance.Mirai.TitleLarge" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Card titles, toolbar titles -->
+    <style name="TextAppearance.Mirai.TitleMedium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Emphasized body, stats numbers -->
+    <style name="TextAppearance.Mirai.BodyLarge" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Default body («القصة», descriptions, chat) -->
+    <style name="TextAppearance.Mirai.Body" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">21sp</item>
+        <item name="android:textColor">@color/mirai_text_secondary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Dense body, list subtitles -->
+    <style name="TextAppearance.Mirai.BodySmall" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineHeight">18sp</item>
+        <item name="android:textColor">@color/mirai_text_secondary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Captions, metadata, timestamps -->
+    <style name="TextAppearance.Mirai.Caption" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:textColor">@color/mirai_text_tertiary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Micro: labels above metadata values («الموسم / السنة») -->
+    <style name="TextAppearance.Mirai.Label" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:textColor">@color/mirai_text_tertiary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Overline: pill badges on imagery, Latin/numeric only -->
+    <style name="TextAppearance.Mirai.Overline" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">11sp</item>
+        <item name="android:lineHeight">14sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04em</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Numeric emphasis: scores, counters -->
+    <style name="TextAppearance.Mirai.Score" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Action links («عرض الكل») — was neon green #00FF87, now primary -->
+    <style name="TextAppearance.Mirai.Action" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineHeight">18sp</item>
+        <item name="android:textColor">@color/mirai_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+</resources>

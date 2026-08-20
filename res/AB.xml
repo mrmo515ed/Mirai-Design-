@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  AB.xml — شاشة الحلقة (إعادة تصميم) · Mirai Design System v1.0
+  ──────────────────────────────────────────────────────────────────────
+  PRESERVED: نفس الشجرة تماماً — CoordinatorLayout + AppBar +
+  CollapsingToolbar + صورة الحلقة + العنوان + RatingBar + خانة الإعلان +
+  Toolbar + FrameLayout للمحتوى. نفس الـ IDs (دلالية — راجع IDS_MAP.md).
+  IMPROVED: صورة 200dp مع scrim موحّد · عنوان TitleXL · نجوم ذهبية
+  موحّدة · الأرقام direction=ltr · توكنات كاملة بدون أي hex يدوي.
+  ══════════════════════════════════════════════════════════════════════
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/episodeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mirai_bg"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@id/episodeAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@id/episodeCollapsing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/mirai_surface"
+            app:titleEnabled="false"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:id="@id/episodeHeaderImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        tools:src="@tools:sample/avatars" />
+
+                    <!-- scrim قراءة موحّد -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/mirai_scrim_hero" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@id/episodeTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_l"
+                    android:paddingHorizontal="@dimen/screen_gutter"
+                    android:textAppearance="@style/TextAppearance.Mirai.TitleXL"
+                    tools:text="اسم الحلقة هنا" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/screen_gutter"
+                    android:paddingVertical="@dimen/space_m">
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        android:id="@id/episodeRatingBar"
+                        style="@style/Widget.Mirai.RatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="42dp"
+                        android:minHeight="42dp"
+                        android:numStars="5"
+                        android:rating="0"
+                        android:stepSize="1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layoutDirection="ltr">
+                            <TextView
+                                android:id="@id/episodeScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+                                android:textColor="@color/mirai_text_primary"
+                                tools:text="4.2" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                                android:text="/5" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@id/episodeVotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                            tools:text="(1,240 تقييم)" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- خانة الإعلان — محفوظة بنفس الـ id والسلوك -->
+                <com.mirai.anime.core.ads.ui.NativeAdLayout
+                    android:id="@id/episodeAdSlot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_l"
+                    android:visibility="gone"
+                    tools:visibility="gone" />
+            </LinearLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@id/episodeToolbar"
+                style="@style/Widget.Mirai.Toolbar.Overlay"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/mirai_ic_back"
+                app:navigationIconTint="@color/mirai_text_primary"
+                app:titleTextColor="@color/mirai_text_primary" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- محتوى الشاشة (تعليقات / روابط مشاهدة) كما هو -->
+    <FrameLayout
+        android:id="@id/episodeContentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon button on normal (non-imagery) surfaces -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/mirai_elevated" />
+    <stroke android:width="1dp" android:color="@color/mirai_border" />
+    <corners android:radius="@dimen/radius_s" />
+</shape>

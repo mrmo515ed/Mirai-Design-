@@ -1,0 +1,3 @@
+# working intermediates (regenerable via tools/axml_parser.py from res.zip)
+res_extracted/
+decoded/

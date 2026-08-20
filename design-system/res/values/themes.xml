@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MIRAI DESIGN SYSTEM — THEME
+  Wire the tokens into Material3. Overlays migrate the EXISTING theme
+  (e.g. the current dark theme referenced as @style/Theme.Mirai) without
+  touching any Activity/Fragment code — set on application/theme only.
+-->
+<resources>
+
+    <style name="Theme.Mirai" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Brand -->
+        <item name="colorPrimary">@color/mirai_primary</item>
+        <item name="colorOnPrimary">@color/mirai_on_primary</item>
+        <item name="colorPrimaryContainer">@color/mirai_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/mirai_on_primary_container</item>
+        <item name="colorSecondary">@color/mirai_secondary</item>
+        <item name="colorOnSecondary">@color/mirai_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/mirai_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/mirai_on_secondary_container</item>
+
+        <!-- Semantic -->
+        <item name="colorError">@color/mirai_error</item>
+        <item name="colorOnError">@color/mirai_on_primary</item>
+        <item name="colorErrorContainer">@color/mirai_error_container</item>
+        <item name="colorOnErrorContainer">@color/mirai_on_error_container</item>
+
+        <!-- Surfaces: opaque dark neutrals, NO white-alpha glass -->
+        <item name="android:colorBackground">@color/mirai_bg</item>
+        <item name="colorSurface">@color/mirai_surface</item>
+        <item name="colorOnSurface">@color/mirai_text_primary</item>
+        <item name="android:statusBarColor">@color/mirai_bg</item>
+        <item name="android:navigationBarColor">@color/mirai_surface</item>
+
+        <!-- Text -->
+        <item name="android:textColorPrimary">@color/mirai_text_primary</item>
+        <item name="android:textColorSecondary">@color/mirai_text_secondary</item>
+        <item name="android:textColorTertiary">@color/mirai_text_tertiary</item>
+
+        <!-- Component defaults -->
+        <item name="materialCardViewStyle">@style/Widget.Mirai.CardView</item>
+        <item name="materialButtonStyle">@style/Widget.Mirai.Button</item>
+        <item name="tabStyle">@style/Widget.Mirai.TabLayout</item>
+        <item name="bottomNavigationStyle">@style/Widget.Mirai.BottomNav</item>
+        <item name="toolbarStyle">@style/Widget.Mirai.Toolbar</item>
+        <item name="textInputStyle">@style/Widget.Mirai.TextInputLayout</item>
+        <item name="chipStyle">@style/Widget.Mirai.Chip</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Mirai.FAB</item>
+        <item name="bottomSheetStyle">@style/Widget.Mirai.BottomSheet</item>
+        <item name="alertDialogTheme">@style/Theme.Mirai.Dialog</item>
+
+        <!-- Legacy attr bridges: existing ?attr usages keep resolving -->
+        <item name="miraiTextPrimary">@color/mirai_text_primary</item>
+        <item name="miraiTextSecondary">@color/mirai_text_secondary</item>
+        <item name="miraiBg">@color/mirai_bg</item>
+        <item name="miraiSurface">@color/mirai_surface</item>
+        <item name="miraiCard">@color/mirai_card</item>
+        <item name="miraiBorder">@color/mirai_border</item>
+        <item name="miraiIcButtonBg">@drawable/mirai_bg_icon_button</item>
+    </style>
+
+    <!-- Modal bottom sheet dialog theme -->
+    <style name="Theme.Mirai.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Mirai.BottomSheet</item>
+    </style>
+
+    <style name="Theme.Mirai.Dialog" parent="ThemeOverlay.Material3.Dialog">
+        <item name="colorBackgroundFloating">@color/mirai_elevated</item>
+        <item name="android:windowBackground">@drawable/mirai_bg_dialog</item>
+    </style>
+
+    <!-- Cinematic detail screens: transparent status bar over hero -->
+    <style name="Theme.Mirai.Cinematic" parent="Theme.Mirai">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+</resources>

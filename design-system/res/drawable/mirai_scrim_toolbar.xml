@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pinned toolbar over collapsing hero -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient android:angle="270" android:startColor="@color/mirai_scrim_toolbar" android:endColor="@color/mirai_surface" android:type="linear" />
+</shape>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Mirai · episode row: thumbnail 16:9 + number pill + title + duration/meta.
+  Replaces mixed gray text with token hierarchy. RTL-safe.
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/episodeCard"
+    style="@style/Widget.Mirai.CardView.Tonal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_sm">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_sm">
+
+        <FrameLayout
+            android:id="@id/episodeThumbWrap"
+            android:layout_width="@dimen/thumb_episode_w"
+            android:layout_height="@dimen/thumb_episode_h"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@id/episodeThumb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@null"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@id/episodeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_margin="@dimen/space_s"
+                android:background="@drawable/mirai_bg_chip_highlight"
+                android:paddingHorizontal="@dimen/space_sm"
+                android:paddingVertical="@dimen/space_xs"
+                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                android:textColor="@color/mirai_on_primary_container"
+                android:textStyle="bold"
+                tools:text="ح 1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/mirai_ripple_card" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_m"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/episodeThumbWrap"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@id/episodeTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+                android:textColor="@color/mirai_text_primary"
+                tools:text="رحلة المغامرين" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@id/episodeWatchedIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/mirai_ic_check"
+                    app:tint="@color/mirai_success"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@id/episodeMeta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_s"
+                    android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                    tools:text="24 دقيقة · شوهدت" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIRAI · معاينة نظام التصميم الجديد</title>
+<style>
+/* ═══════════ MIRAI DESIGN TOKENS (نفس قيم ملفات res بالضبط) ═══════════ */
+:root{
+  --bg:#0B0D10; --surface:#11151A; --card:#151A20; --elevated:#1A2028;
+  --primary:#00A3FF; --primary-dim:#0089D6; --primary-container:#003252; --on-primary:#04121C; --on-primary-container:#B3E2FF;
+  --secondary:#7C4DFF; --secondary-container:#2A2050; --on-secondary-container:#E4DBFF;
+  --text-1:#F2F5F9; --text-2:#A8B3C4; --text-3:#6B7686; --text-off:#47505E;
+  --border:#232B35; --border-subtle:#1E252E; --border-strong:#2E3947;
+  --success:#34D399; --success-container:#0E3327; --on-success-container:#B9F4DD;
+  --warning:#FBBF24; --error:#F87171; --error-container:#3B1717;
+  --rating:#FFC53D; --rating-container:#3D2E0A; --on-rating-container:#FFE9AE;
+  --r-xs:6px; --r-s:8px; --r-m:12px; --r-l:16px; --r-xl:20px; --r-full:999px;
+  --sp:4px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:#07080A; color:var(--text-1);
+  font-family:"Noto Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  min-height:100vh; padding:24px 20px 60px;
+}
+/* ═══════════ Page header ═══════════ */
+.page-head{max-width:1180px;margin:0 auto 20px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:42px;height:42px;border-radius:var(--r-m);background:var(--primary);display:grid;place-items:center;font-weight:800;font-size:20px;color:var(--on-primary);letter-spacing:-1px}
+.brand h1{font-size:20px;font-weight:800}
+.brand p{font-size:12px;color:var(--text-3)}
+.badge{font-size:11px;color:var(--on-primary-container);background:var(--primary-container);border:1px solid rgba(0,163,255,.25);padding:3px 10px;border-radius:var(--r-full);font-weight:700}
+/* ═══════════ Screen switcher ═══════════ */
+.switcher{max-width:1180px;margin:0 auto 26px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:#07080Ae8;padding:12px 0;backdrop-filter:blur(10px);border-bottom:1px solid var(--border-subtle)}
+.chip-sw{cursor:pointer;user-select:none;font-size:13px;font-weight:700;color:var(--text-2);background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:var(--r-full);transition:.18s}
+.chip-sw:hover{border-color:var(--border-strong);color:var(--text-1)}
+.chip-sw.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.chip-sw.star{position:relative}
+.chip-sw.star::after{content:"⭐";position:absolute;top:-8px;left:-6px;font-size:12px}
+/* ═══════════ Layout ═══════════ */
+.stage{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:start}
+@media(max-width:900px){.stage{grid-template-columns:1fr;justify-items:center}}
+/* ═══════════ Phone frame ═══════════ */
+.phone{
+  width:390px;height:800px;background:var(--bg);border-radius:44px;border:1px solid #2A313B;
+  box-shadow:0 30px 80px #000c, inset 0 0 0 8px #05060a; position:sticky;top:20px;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+@media(max-width:900px){.phone{position:static;transform:scale(.92);transform-origin:top center;margin-bottom:-56px}}
+.notch{position:absolute;top:10px;right:50%;transform:translateX(50%);width:120px;height:26px;background:#05060a;border-radius:999px;z-index:40}
+.statusbar{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:13px;font-weight:700;z-index:30;position:relative}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;scrollbar-width:none}
+.content::-webkit-scrollbar{display:none}
+/* bottom nav */
+.bnav{flex:none;height:68px;background:var(--surface);border-top:1px solid var(--border-subtle);display:flex;z-index:30}
+.bnav .ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--text-3);cursor:pointer;transition:.15s}
+.bnav .ni .ic{width:44px;height:28px;border-radius:var(--r-full);display:grid;place-items:center;font-size:17px;transition:.15s}
+.bnav .ni.on{color:var(--primary);font-weight:700}
+.bnav .ni.on .ic{background:rgba(0,163,255,.12)}
+/* ═══════════ Shared UI (mirrors the XML styles) ═══════════ */
+.pad{padding:0 16px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:20px 16px 10px}
+.sec-head h3{font-size:18px;font-weight:800}
+.see-all{font-size:13px;font-weight:700;color:var(--primary);cursor:pointer}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-l)}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:var(--r-s);background:var(--surface);border:1px solid var(--border);color:var(--text-2)}
+.chip.gold{background:var(--rating-container);border-color:transparent;color:var(--on-rating-container)}
+.chip.green{background:var(--success-container);border-color:transparent;color:var(--on-success-container)}
+.chip.blue{background:var(--primary-container);border-color:transparent;color:var(--on-primary-container)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:var(--r-full);font-size:16px;font-weight:800;cursor:pointer;border:none;transition:.15s}
+.btn.primary{background:var(--primary);color:var(--on-primary)}
+.btn.primary:hover{background:var(--primary-dim)}
+.btn.ghost{background:transparent;border:1px solid var(--border-strong);color:var(--text-1)}
+.iconbtn{width:48px;height:48px;border-radius:var(--r-s);background:rgba(26,32,40,.85);border:1px solid var(--border);display:grid;place-items:center;font-size:18px;cursor:pointer;color:var(--text-1);backdrop-filter:blur(6px)}
+.avatar{border-radius:50%;object-fit:cover;background:var(--elevated)}
+.divider{height:1px;background:var(--border-subtle)}
+/* ═══════ ANIME DETAILS ═══════ */
+.hero{position:relative}
+.hero .keyart{width:100%;height:470px;object-fit:cover;display:block}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,transparent 22%,rgba(0,0,0,.55) 55%,#F20B0D10 92%,var(--bg) 100%)}
+.hero-topbar{position:absolute;top:44px;right:0;left:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:5}
+.hero-lockup{position:absolute;bottom:0;right:0;left:0;display:flex;flex-direction:column;align-items:center;padding:0 20px 18px;z-index:4}
+.poster-wrap{width:110px;height:165px;border-radius:var(--r-m);overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 32px #000b;margin-bottom:12px;background:var(--elevated)}
+.poster-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.a-title{font-size:26px;font-weight:800;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.a-jp{font-size:12px;color:var(--text-2);margin-top:2px;text-shadow:0 1px 4px rgba(0,0,0,.55)}
+.chips-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.cta-row{display:flex;gap:12px;margin-top:16px;width:100%}
+.cta-row .btn{flex:1;height:52px}
+.genre-rail{display:flex;gap:8px;overflow-x:auto;padding:16px 16px 4px;scrollbar-width:none}
+.genre-rail::-webkit-scrollbar{display:none}
+.desc{font-size:14px;line-height:21px;color:var(--text-2);margin-top:8px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:6px}
+.meta-grid .k{font-size:12px;color:var(--text-3);font-weight:700}
+.meta-grid .v{font-size:13px;color:var(--text-1);margin-top:2px}
+.stats-card{margin-top:18px;padding:16px}
+.stats-row{display:flex;align-items:center}
+.stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.stat .st-ic{font-size:20px;margin-bottom:4px}
+.stat .num{display:flex;align-items:baseline;gap:1px;direction:ltr}
+.stat .num b{font-size:18px;font-weight:800}
+.stat .num span{font-size:12px;color:var(--text-3)}
+.stat .lbl{font-size:11px;color:var(--text-3)}
+.vline{width:1px;height:40px;background:var(--border)}
+.rating-row{display:flex;align-items:center;gap:12px;margin-top:14px}
+.rating-row .rl{font-size:13px;font-weight:800;white-space:nowrap}
+.slider{flex:1;display:flex;align-items:center;gap:0;direction:ltr}
+.slider .track{flex:1;height:4px;border-radius:2px;background:var(--border);position:relative}
+.slider .fill{position:absolute;inset:0;width:72%;background:var(--rating);border-radius:2px}
+.slider .thumb{position:absolute;top:50%;left:72%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--rating);border:3px solid var(--bg);box-shadow:0 2px 6px #0009}
+.ticks{display:flex;justify-content:space-between;direction:ltr;margin-top:6px;font-size:10px;color:var(--text-3)}
+.ep-card{display:flex;gap:12px;padding:8px;margin-bottom:10px;align-items:center;cursor:pointer;transition:.15s}
+.ep-card:hover{border-color:var(--border-strong)}
+.ep-thumb{position:relative;width:132px;height:76px;border-radius:var(--r-s);overflow:hidden;flex:none}
+.ep-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ep-num{position:absolute;top:6px;right:6px;background:var(--primary-container);color:var(--on-primary-container);font-size:11px;font-weight:800;padding:2px 8px;border-radius:var(--r-s)}
+.ep-dur{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
+.ep-title{font-size:15px;font-weight:700;color:var(--text-1)}
+.ep-meta{font-size:12px;color:var(--text-3);margin-top:3px;display:flex;align-items:center;gap:4px}
+.ch-rail{display:flex;gap:12px;overflow-x:auto;padding:4px 16px 6px;scrollbar-width:none}
+.ch-rail::-webkit-scrollbar{display:none}
+.ch-card{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.ch-card .ph{width:68px;height:68px;border-radius:var(--r-full);object-fit:cover;border:1px solid var(--border-strong)}
+.ch-card .nm{font-size:12px;font-weight:700;color:var(--text-1);text-align:center}
+.ch-card .ro{font-size:10px;color:var(--text-3)}
+.trailer{position:relative;border-radius:var(--r-l);overflow:hidden;border:1px solid var(--border-subtle);cursor:pointer}
+.trailer img{width:100%;height:190px;object-fit:cover;display:block}
+.trailer .play{position:absolute;inset:0;display:grid;place-items:center}
+.trailer .play .pp{width:56px;height:56px;border-radius:50%;background:rgba(0,163,255,.92);display:grid;place-items:center;font-size:20px;color:var(--on-primary);box-shadow:0 8px 24px rgba(0,163,255,.35)}
+.poster-rail{display:flex;gap:12px;overflow-x:auto;padding:4px 16px 10px;scrollbar-width:none}
+.poster-rail::-webkit-scrollbar{display:none}
+.pcard{flex:none;width:120px;cursor:pointer}
+.pcard .im{position:relative;width:120px;height:180px;border-radius:var(--r-m);overflow:hidden;border:1px solid var(--border)}
+.pcard .im img{width:100%;height:100%;object-fit:cover;display:block}
+.pcard .sc{position:absolute;top:6px;right:6px;background:var(--rating-container);color:var(--on-rating-container);font-size:11px;font-weight:800;padding:2px 7px;border-radius:var(--r-s)}
+.pcard .t{font-size:13px;font-weight:700;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .s{font-size:11px;color:var(--text-3)}
+/* ═══════ HOME ═══════ */
+.home-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px}
+.home-head h2{font-size:22px;font-weight:800}
+.search-pill{margin:8px 16px 4px;height:48px;border-radius:var(--r-full);background:var(--card);border:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 16px;color:var(--text-3);font-size:14px;cursor:pointer}
+.cw-card{flex:none;width:210px;cursor:pointer}
+.cw-card .im{position:relative;width:210px;height:118px;border-radius:var(--r-m);overflow:hidden;border:1px solid var(--border)}
+.cw-card .im img{width:100%;height:100%;object-fit:cover}
+.cw-card .bar{position:absolute;bottom:0;right:0;left:0;height:3px;background:rgba(255,255,255,.2)}
+.cw-card .bar i{position:absolute;inset:0;width:42%;background:var(--primary);display:block}
+.cw-card .t{font-size:14px;font-weight:700;margin-top:8px}
+.cw-card .s{font-size:12px;color:var(--text-3)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 16px}
+/* ═══════ EXPLORE ═══════ */
+.seg-rail{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
+.seg-rail::-webkit-scrollbar{display:none}
+.seg{flex:none;font-size:13px;font-weight:700;padding:8px 16px;border-radius:var(--r-full);background:var(--surface);border:1px solid var(--border);color:var(--text-2);cursor:pointer}
+.seg.on{background:var(--primary-container);border-color:transparent;color:var(--on-primary-container)}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:4px 16px}
+.grid3 .pcard{width:auto}
+.grid3 .pcard .im{width:100%;height:150px}
+/* ═══════ POSTS ═══════ */
+.create-bar{margin:12px 16px 4px;display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer}
+.create-bar .txt{flex:1;font-size:14px;color:var(--text-3)}
+.post{margin:12px 16px 0;overflow:hidden}
+.post-h{display:flex;align-items:center;gap:10px;padding:12px}
+.post-h .who{flex:1}
+.post-h .nm{font-size:14px;font-weight:800}
+.post-h .tm{font-size:11px;color:var(--text-3)}
+.post-body{padding:0 12px 12px;font-size:14px;line-height:21px;color:var(--text-2)}
+.post-im{margin:0 12px 12px;border-radius:var(--r-m);overflow:hidden;border:1px solid var(--border-subtle)}
+.post-im img{width:100%;height:180px;object-fit:cover;display:block}
+.post-acts{display:flex;border-top:1px solid var(--border-subtle)}
+.post-acts .a{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;font-size:12px;color:var(--text-3);cursor:pointer;font-weight:700}
+.post-acts .a:hover{color:var(--primary)}
+/* ═══════ PROFILE ═══════ */
+.pf-cover{height:150px;position:relative}
+.pf-cover img{width:100%;height:100%;object-fit:cover}
+.pf-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,var(--bg))}
+.pf-head{display:flex;flex-direction:column;align-items:center;margin-top:-46px;position:relative;z-index:2}
+.pf-av{width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--border-strong)}
+.pf-name{font-size:20px;font-weight:800;margin-top:10px}
+.pf-handle{font-size:12px;color:var(--text-3);margin-top:2px}
+.pf-bio{font-size:13px;color:var(--text-2);text-align:center;margin-top:8px;max-width:280px;line-height:19px}
+.pf-stats{display:flex;gap:0;margin-top:16px;width:100%;padding:0 16px}
+.pf-stat{flex:1;text-align:center}
+.pf-stat b{font-size:17px;display:block}
+.pf-stat span{font-size:11px;color:var(--text-3)}
+.pf-btns{display:flex;gap:10px;width:100%;padding:14px 16px 4px}
+.pf-btns .btn{flex:1;height:44px;font-size:14px}
+.pf-tabs{display:flex;margin-top:14px;border-bottom:1px solid var(--border-subtle);padding:0 8px}
+.pf-tab{flex:1;text-align:center;padding:12px 0;font-size:14px;font-weight:700;color:var(--text-3);cursor:pointer;border-bottom:3px solid transparent}
+.pf-tab.on{color:var(--text-1);border-bottom-color:var(--primary)}
+/* ═══════ CHAT ═══════ */
+.chat-row{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer}
+.chat-row:hover{background:var(--surface)}
+.av-wrap{position:relative;flex:none}
+.dot{position:absolute;bottom:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--success);border:2.5px solid var(--bg)}
+.chat-mid{flex:1;min-width:0}
+.chat-nm{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px}
+.chat-ls{font-size:13px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.chat-right{text-align:left;flex:none}
+.chat-tm{font-size:11px;color:var(--text-3)}
+.unread{margin-top:6px;background:var(--primary);color:var(--on-primary);font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;display:inline-grid;place-items:center;padding:0 6px}
+/* ═══════ NOTIFICATIONS ═══════ */
+.ntf{display:flex;gap:12px;padding:14px 16px;cursor:pointer;align-items:flex-start}
+.ntf:hover{background:var(--surface)}
+.ntf .ic{flex:none;width:40px;height:40px;border-radius:var(--r-s);display:grid;place-items:center;font-size:17px}
+.ntf .tx{flex:1}
+.ntf .tx p{font-size:14px;line-height:20px}
+.ntf .tx b{font-weight:800}
+.ntf .tm{font-size:11px;color:var(--text-3);margin-top:3px}
+.ntf.unseen .tx p{color:var(--text-1)}
+.ntf.unseen .ic{outline:1px solid var(--primary);outline-offset:2px}
+.ntf-date{padding:14px 16px 4px;font-size:12px;font-weight:800;color:var(--text-3)}
+/* ═══════ SETTINGS ═══════ */
+.set-group{margin:16px 16px 0;overflow:hidden}
+.set-row{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer}
+.set-row+.set-row{border-top:1px solid var(--border-subtle)}
+.set-row .ic{flex:none;width:36px;height:36px;border-radius:var(--r-s);background:var(--surface);border:1px solid var(--border-subtle);display:grid;place-items:center;font-size:16px}
+.set-row .lb{flex:1;font-size:14px;font-weight:700}
+.set-row .sub{font-size:11px;color:var(--text-3);margin-top:1px}
+.set-row .end{color:var(--text-3);font-size:14px}
+.sw{width:44px;height:26px;border-radius:999px;background:var(--border-strong);position:relative;transition:.2s;flex:none}
+.sw::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:var(--text-1);transition:.2s}
+.sw.on{background:var(--primary)}
+.sw.on::after{right:21px;background:#fff}
+/* ═══════ DESIGN SYSTEM PANEL ═══════ */
+.swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 16px}
+.sw-c{border-radius:var(--r-m);border:1px solid var(--border);overflow:hidden}
+.sw-c .cl{height:56px}
+.sw-c .in{padding:8px 10px;background:var(--card)}
+.sw-c .in b{font-size:12px;display:block}
+.sw-c .in span{font-size:10px;color:var(--text-3);font-family:Consolas,monospace;direction:ltr;display:block}
+.type-row{display:flex;align-items:baseline;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border-subtle)}
+.type-row .t{color:var(--text-1)}
+.type-row .m{font-size:11px;color:var(--text-3);font-family:Consolas,monospace;direction:ltr}
+.radius-demo{display:flex;gap:12px;padding:14px 16px;flex-wrap:wrap}
+.rad{width:72px;height:72px;background:var(--card);border:1px dashed var(--border-strong);display:grid;place-items:center;font-size:11px;color:var(--text-3)}
+.states-demo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:14px 16px}
+.state-box{border:1px solid var(--border);border-radius:var(--r-m);padding:14px 8px;text-align:center}
+.state-box .em{font-size:26px}
+.state-box p{font-size:11px;color:var(--text-3);margin-top:6px}
+.sk{background:linear-gradient(90deg,var(--card) 25%,#232B35 50%,var(--card) 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:6px}
+@keyframes sh{from{background-position:200% 0}to{background-position:-200% 0}}
+/* ═══════ ICON GRID ═══════ */
+.icon-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:4px 16px}
+.ig{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-m);cursor:default;transition:.15s}
+.ig:hover{border-color:var(--border-strong)}
+.ig svg{width:26px;height:26px;color:var(--text-2)}
+.ig:hover svg{color:var(--primary)}
+.ig span{font-size:10px;color:var(--text-3)}
+.ig.gold svg{color:var(--rating)}
+.ig.err svg{color:var(--error)}
+/* ═══════ BEFORE / AFTER ═══════ */
+.ba-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 16px}
+@media(max-width:420px){.ba-wrap{grid-template-columns:1fr}}
+.ba{border-radius:var(--r-l);overflow:hidden;border:1px solid var(--border)}
+.ba .hd{padding:10px;font-size:13px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.ba .bd{padding:14px;display:flex;flex-direction:column;gap:12px;min-height:340px}
+.ba.old{background:#0A0C10}
+.ba.old .hd{color:#FF5252;background:#12151c}
+.ba.new{background:var(--bg)}
+.ba.new .hd{color:var(--success);background:var(--card)}
+.ba-item .note{font-size:11px;margin-bottom:5px;display:block}
+.o-cta{height:57px;background:#00FF87;color:#000;border-radius:25px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.o-glass{background:#1AFFFFFF;border:1px solid #33FFFFFF;border-radius:16px;padding:10px;display:flex;gap:10px;align-items:center}
+.o-glass .av2{width:40px;height:40px;border-radius:50%;background:#33FFFFFF}
+.o-glass p{font-size:12px;color:#E0E0E0}
+.o-chips span{display:inline-block;font-size:11px;margin-inline-end:6px;padding:3px 8px;border-radius:4px}
+.o-title{font-size:23px;font-weight:800;color:#fff}
+.o-txt{font-size:9px;color:#7B83A0}
+.n-cta{height:52px;background:var(--primary);color:var(--on-primary);border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:14px}
+.n-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-m);padding:10px;display:flex;gap:10px;align-items:center}
+.n-card p{font-size:12px;color:var(--text-1);font-weight:700}
+.n-title{font-size:26px;font-weight:800;color:var(--text-1)}
+.n-txt{font-size:12px;color:var(--text-2)}
+/* ═══════ Notes panel ═══════════ */
+.notes{max-width:640px}
+.notes h2{font-size:20px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.notes .sub{font-size:13px;color:var(--text-3);margin-bottom:18px}
+.note-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-l);padding:16px 18px;margin-bottom:10px}
+.note-card .h{display:flex;gap:10px;align-items:center;font-size:14px;font-weight:800;margin-bottom:8px}
+.note-card .h .n{width:26px;height:26px;border-radius:8px;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center;font-size:13px;flex:none}
+.note-card p{font-size:13px;color:var(--text-2);line-height:21px}
+.note-card .mono{font-family:Consolas,monospace;direction:ltr;display:inline-block;font-size:11.5px;background:var(--surface);border:1px solid var(--border-subtle);border-radius:6px;padding:1px 7px;color:var(--primary);margin:0 2px}
+.mini-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.mini-toc .t{font-size:11px;color:var(--text-3);border:1px solid var(--border-subtle);padding:4px 10px;border-radius:999px}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="brand">
+    <div class="logo">M</div>
+    <div>
+      <h1>MIRAI — نظام التصميم الجديد</h1>
+      <p>Premium Anime Social Platform · Dark · Cinematic · Consistent</p>
+    </div>
+  </div>
+  <span class="badge">v1.0 · نفس قيم ملفات res بالضبط</span>
+</div>
+
+<div class="switcher" id="switcher">
+  <div class="chip-sw star on" data-s="details">تفاصيل الأنمي ⭐</div>
+  <div class="chip-sw" data-s="home">الرئيسية</div>
+  <div class="chip-sw" data-s="explore">استكشاف</div>
+  <div class="chip-sw" data-s="episodes">الحلقات</div>
+  <div class="chip-sw" data-s="posts">المنشورات</div>
+  <div class="chip-sw" data-s="profile">الملف الشخصي</div>
+  <div class="chip-sw" data-s="chat">الدردشة</div>
+  <div class="chip-sw" data-s="notifications">الإشعارات</div>
+  <div class="chip-sw" data-s="settings">الإعدادات</div>
+  <div class="chip-sw" data-s="ds">نظام التصميم</div>
+  <div class="chip-sw" data-s="ba">قبل / بعد</div>
+</div>
+
+<div class="stage">
+  <!-- ═══════════ PHONE ═══════════ -->
+  <div class="phone" id="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>9:41</span><span>▮▮ ⌁ ▰</span></div>
+    <div class="content" id="content">
+
+      <!-- ════ ANIME DETAILS ⭐ ════ -->
+      <section class="screen" id="s-details">
+        <div class="hero">
+          <img class="keyart" src="assets/hero_keyart.jpg" alt="">
+          <div class="scrim"></div>
+          <div class="hero-topbar">
+            <div class="iconbtn" style="width:44px;height:44px">←</div>
+            <div style="display:flex;gap:8px">
+              <div class="iconbtn" style="width:44px;height:44px">♡</div>
+              <div class="iconbtn" style="width:44px;height:44px">↗</div>
+            </div>
+          </div>
+          <div class="hero-lockup">
+            <div class="poster-wrap"><img src="assets/poster1.jpg" alt=""></div>
+            <div class="a-title">Sousou no Frieren</div>
+            <div class="a-jp">葬送のフリーレン · فريرين: ما وراء الرحلة</div>
+            <div class="chips-row">
+              <span class="chip gold">★ 8.9</span>
+              <span class="chip green">● يُعرض الآن</span>
+              <span class="chip">TV · 28 حلقة</span>
+              <span class="chip">2023</span>
+            </div>
+            <div class="cta-row">
+              <button class="btn primary">🔖 أضف للمكتبة</button>
+              <div class="iconbtn">↗</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="genre-rail">
+          <span class="chip">خيال</span><span class="chip">مغامرة</span><span class="chip">دراما</span><span class="chip">شونين</span><span class="chip">سحر</span>
+        </div>
+
+        <div class="pad">
+          <div class="sec-head" style="padding:14px 0 0"><h3>القصة</h3></div>
+          <p class="desc">بعد عودة فريق البطل من رحلة استمرت عشر سنوات لهزيمة ملك الشياطين، تبدأ الساحرة الخالدة فريرين رحلة جديدة… رحلة لفهم معنى الإنسانية والوقت، قبل أن يفوت الأوان.</p>
+
+          <div class="sec-head" style="padding:20px 0 0"><h3>المعلومات</h3></div>
+          <div class="meta-grid">
+            <div><div class="k">الموسم / السنة</div><div class="v">خريف 2023</div></div>
+            <div><div class="k">المصدر الأصلي</div><div class="v">مانجا</div></div>
+            <div><div class="k">الترتيب / المشاهدات</div><div class="v">#12 · 3.4M</div></div>
+            <div><div class="k">حالة العرض</div><div class="v" style="color:var(--success)">يُعرض الآن</div></div>
+          </div>
+
+          <div class="card stats-card">
+            <div class="stats-row">
+              <div class="stat"><span class="st-ic">⭐</span><div class="num"><b>8.9</b><span>/10</span></div><span class="lbl">تقييم MAL</span></div>
+              <div class="vline"></div>
+              <div class="stat"><span class="st-ic" style="color:var(--primary)">◉</span><div class="num"><b style="color:var(--primary)">8.4</b><span>/10</span></div><span class="lbl">تقييم المجتمع</span></div>
+              <div class="vline"></div>
+              <div class="stat"><span class="st-ic" style="color:var(--error)">♥</span><div class="num"><b>214K</b></div><span class="lbl">مفضل للجمهور</span></div>
+            </div>
+            <div class="divider" style="margin:14px 0"></div>
+            <div class="rating-row">
+              <span class="rl">تقييمك:</span>
+              <div style="flex:1">
+                <div class="slider"><div class="track"><div class="fill"></div><div class="thumb"></div></div></div>
+                <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-head"><h3>الحلقات</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="pad">
+          <div class="card ep-card">
+            <div class="ep-thumb"><img src="assets/hero_keyart.jpg" alt=""><span class="ep-num">ح 1</span><span class="ep-dur">24:10</span></div>
+            <div><div class="ep-title">نهاية رحلة البطل</div><div class="ep-meta"><span style="color:var(--success)">✓</span> تمت المشاهدة</div></div>
+          </div>
+          <div class="card ep-card">
+            <div class="ep-thumb"><img src="assets/poster2.jpg" alt=""><span class="ep-num">ح 2</span><span class="ep-dur">24:05</span></div>
+            <div><div class="ep-title">لم يكن يشعر بالسحر</div><div class="ep-meta">24 دقيقة</div></div>
+          </div>
+          <div class="card ep-card">
+            <div class="ep-thumb"><img src="assets/poster3.jpg" alt=""><span class="ep-num">ح 3</span><span class="ep-dur">24:12</span></div>
+            <div><div class="ep-title">قاتل السحرة</div><div class="ep-meta">24 دقيقة · جديدة</div></div>
+          </div>
+        </div>
+
+        <div class="sec-head"><h3>الشخصيات الرئيسية</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="ch-rail">
+          <div class="ch-card"><img class="ph" src="assets/avatar.jpg" alt=""><span class="nm">فريرين</span><span class="ro">رئيسي</span></div>
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--elevated);font-size:20px;color:var(--text-3)">هـ</div><span class="nm">هيميل</span><span class="ro">رئيسي</span></div>
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--surface);font-size:20px;color:var(--text-3)">ف</div><span class="nm">فرنر</span><span class="ro">مساعد</span></div>
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--card);font-size:20px;color:var(--text-3)">أ</div><span class="nm">أوغست</span><span class="ro">مساند</span></div>
+        </div>
+
+        <div class="sec-head"><h3>طاقم العمل</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="ch-rail">
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--elevated);font-size:18px;color:var(--text-3);width:68px;height:68px;border-radius:12px">س</div><span class="nm">ساتورو</span><span class="ro">مخرج</span></div>
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--surface);font-size:18px;color:var(--text-3);width:68px;height:68px;border-radius:12px">ي</div><span class="nm">ياسوهيرو</span><span class="ro">تصميم شخصيات</span></div>
+          <div class="ch-card"><div class="ph" style="display:grid;place-items:center;background:var(--card);font-size:18px;color:var(--text-3);width:68px;height:68px;border-radius:12px">إ</div><span class="nm">إيفان</span><span class="ro">موسيقى</span></div>
+        </div>
+
+        <div class="sec-head"><h3>العرض التشويقي الرسمي</h3></div>
+        <div class="pad">
+          <div class="trailer">
+            <img src="assets/hero_keyart.jpg" alt="">
+            <div class="play"><div class="pp">▶</div></div>
+          </div>
+        </div>
+
+        <div class="sec-head"><h3>أعمال ذات صلة</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="poster-rail" style="padding-bottom:24px">
+          <div class="pcard"><div class="im"><img src="assets/poster2.jpg" alt=""><span class="sc">8.5</span></div><div class="t">Frieren: Beyond</div><div class="s">TV · 2024</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster3.jpg" alt=""><span class="sc">8.2</span></div><div class="t">Mecha Requiem</div><div class="s">ONA · 2023</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster1.jpg" alt=""><span class="sc">9.0</span></div><div class="t">Blade of Dawn</div><div class="s">Movie · 2022</div></div>
+        </div>
+      </section>
+
+      <!-- ════ HOME ════ -->
+      <section class="screen" id="s-home" hidden>
+        <div class="home-head">
+          <div style="display:flex;align-items:center;gap:10px">
+            <img class="avatar" src="assets/avatar.jpg" style="width:40px;height:40px;border:1px solid var(--border-strong)" alt="">
+            <div><div style="font-size:11px;color:var(--text-3)">مساء الخير 👋</div><h2>يوسف</h2></div>
+          </div>
+          <div class="iconbtn" style="width:44px;height:44px">🔔<span style="position:absolute"></span></div>
+        </div>
+        <div class="search-pill">🔍 ابحث عن أنمي، شخصية…</div>
+
+        <div class="sec-head"><h3>استمر بالمشاهدة</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="poster-rail" style="padding:4px 16px">
+          <div class="cw-card"><div class="im"><img src="assets/hero_keyart.jpg" alt=""><div class="bar"><i></i></div></div><div class="t">Sousou no Frieren</div><div class="s">الحلقة 3 من 28</div></div>
+          <div class="cw-card"><div class="im"><img src="assets/poster3.jpg" alt=""><div class="bar"><i style="width:68%"></i></div></div><div class="t">Mecha Requiem</div><div class="s">الحلقة 8 من 12</div></div>
+        </div>
+
+        <div class="sec-head"><h3>الأعلى تقييماً هذا الموسم</h3><span class="see-all">عرض الكل ←</span></div>
+        <div class="grid2">
+          <div class="pcard" style="width:auto"><div class="im" style="width:100%;height:200px"><img src="assets/poster1.jpg" alt=""><span class="sc">★ 9.0</span></div><div class="t">Blade of Dawn</div><div class="s">فانتازيا · 2022</div></div>
+          <div class="pcard" style="width:auto"><div class="im" style="width:100%;height:200px"><img src="assets/poster2.jpg" alt=""><span class="sc">★ 8.5</span></div><div class="t">Sunset Line</div><div class="s">دراما · 2024</div></div>
+          <div class="pcard" style="width:auto"><div class="im" style="width:100%;height:200px"><img src="assets/poster3.jpg" alt=""><span class="sc">★ 8.2</span></div><div class="t">Mecha Requiem</div><div class="s">خيال علمي · 2023</div></div>
+          <div class="pcard" style="width:auto"><div class="im" style="width:100%;height:200px"><img src="assets/hero_keyart.jpg" alt=""><span class="sc">★ 8.9</span></div><div class="t">Frieren</div><div class="s">مغامرة · 2023</div></div>
+        </div>
+        <div style="height:20px"></div>
+      </section>
+
+      <!-- ════ EXPLORE ════ -->
+      <section class="screen" id="s-explore" hidden>
+        <div class="home-head"><h2>استكشاف</h2><span class="chip blue">⚡ شائع الآن</span></div>
+        <div class="search-pill">🔍 ابحث أو تصفح الفئات</div>
+        <div class="seg-rail">
+          <span class="seg on">الكل</span><span class="seg">أفلام</span><span class="seg">مسلسلات</span><span class="seg">أوفا</span><span class="seg">مانهوا</span><span class="seg">مانجا</span>
+        </div>
+        <div class="grid3">
+          <div class="pcard"><div class="im"><img src="assets/poster1.jpg" alt=""><span class="sc">9.0</span></div><div class="t" style="font-size:12px">Blade of Dawn</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster2.jpg" alt=""><span class="sc">8.5</span></div><div class="t" style="font-size:12px">Sunset Line</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster3.jpg" alt=""><span class="sc">8.2</span></div><div class="t" style="font-size:12px">Mecha Requiem</div></div>
+          <div class="pcard"><div class="im"><img src="assets/hero_keyart.jpg" alt=""><span class="sc">8.9</span></div><div class="t" style="font-size:12px">Frieren</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster2.jpg" alt=""><span class="sc">7.9</span></div><div class="t" style="font-size:12px">Rail of Time</div></div>
+          <div class="pcard"><div class="im"><img src="assets/poster1.jpg" alt=""><span class="sc">8.1</span></div><div class="t" style="font-size:12px">Crimson Vow</div></div>
+        </div>
+        <div style="height:20px"></div>
+      </section>
+
+      <!-- ════ EPISODES ════ -->
+      <section class="screen" id="s-episodes" hidden>
+        <div class="hero" style="height:330px">
+          <img class="keyart" style="height:330px" src="assets/poster2.jpg" alt="">
+          <div class="scrim"></div>
+          <div class="hero-topbar"><div class="iconbtn" style="width:44px;height:44px">←</div></div>
+          <div class="hero-lockup">
+            <div class="a-title" style="font-size:22px">الحلقة 2 · لم يكن يشعر بالسحر</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+              <span style="color:var(--rating);font-size:16px;letter-spacing:2px">★★★★☆</span>
+              <b style="font-size:16px">4.0</b><span style="font-size:12px;color:var(--text-3)">(1.2K تقييم)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pad">
+          <div class="card" style="margin-top:14px;padding:14px">
+            <p class="desc" style="margin-top:0">تكتشف فريرين أن هيميل كان يزرع السحر في أصغر تفاصيل رحلتهما… حلقة استرجاعية مؤثرة عن معنى الأشياء الصغيرة.</p>
+          </div>
+          <div class="sec-head" style="padding:16px 0 8px"><h3>التقييمات</h3><span class="see-all">كل التقييمات ←</span></div>
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <img class="avatar" src="assets/avatar.jpg" style="width:36px;height:36px" alt="">
+              <div style="flex:1"><b style="font-size:13px">عبدالله</b><div style="font-size:11px;color:var(--text-3)">قبل 3 ساعات</div></div>
+              <span style="color:var(--rating);font-size:13px">★★★★★</span>
+            </div>
+            <p style="font-size:13px;color:var(--text-2);line-height:20px;margin-top:8px">أفضل حلقة في الموسم حتى الآن، الإخراج والاسترجاع ممتاز.</p>
+          </div>
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="avatar" style="width:36px;height:36px;display:grid;place-items:center;color:var(--text-3)">س</div>
+              <div style="flex:1"><b style="font-size:13px">سارة</b><div style="font-size:11px;color:var(--text-3)">أمس</div></div>
+              <span style="color:var(--rating);font-size:13px">★★★★☆</span>
+            </div>
+            <p style="font-size:13px;color:var(--text-2);line-height:20px;margin-top:8px">الإيقاع أبطأ قليلاً لكنه مطلوب للقصة.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════ POSTS ════ -->
+      <section class="screen" id="s-posts" hidden>
+        <div class="home-head"><h2>المنشورات</h2><div class="iconbtn" style="width:44px;height:44px">⚙</div></div>
+        <div class="create-bar card">
+          <img class="avatar" src="assets/avatar.jpg" style="width:36px;height:36px" alt="">
+          <span class="txt">بماذا تفكر يا يوسف؟</span>
+          <span style="color:var(--primary);font-size:18px">✎</span>
+        </div>
+        <div class="post card">
+          <div class="post-h">
+            <img class="avatar" src="assets/avatar.jpg" style="width:44px;height:44px" alt="">
+            <div class="who"><div class="nm">أوتاكو العرب <span class="chip green" style="font-size:9px;padding:1px 7px">✓</span></div><div class="tm">قبل ساعتين · 🌐</div></div>
+            <span style="color:var(--text-off)">⋯</span>
+          </div>
+          <div class="post-body">أفضل لقطة في تاريخ الأنمي — لا نقاش 😤🔥 من تشاهدون في الصورة؟</div>
+          <div class="post-im"><img src="assets/hero_keyart.jpg" alt=""></div>
+          <div class="post-acts">
+            <span class="a">❤️ 428</span><span class="a">💬 63</span><span class="a">↗ 12</span>
+          </div>
+        </div>
+        <div class="post card">
+          <div class="post-h">
+            <div class="avatar" style="width:44px;height:44px;display:grid;place-items:center;background:var(--secondary-container);color:var(--on-secondary-container);font-weight:800">ر</div>
+            <div class="who"><div class="nm">ريم</div><div class="tm">قبل 5 ساعات</div></div>
+            <span style="color:var(--text-off)">⋯</span>
+          </div>
+          <div class="post-body">انتهيت أخيراً من Mecha Requiem — النهاية غير متوقعة تماماً ⚡ التقييم الكامل في المراجعة.</div>
+          <div class="post-acts"><span class="a">❤️ 214</span><span class="a">💬 31</span><span class="a">↗ 8</span></div>
+        </div>
+        <div style="height:16px"></div>
+      </section>
+
+      <!-- ════ PROFILE ════ -->
+      <section class="screen" id="s-profile" hidden>
+        <div class="pf-cover"><img src="assets/hero_keyart.jpg" alt=""></div>
+        <div class="pf-head">
+          <img class="pf-av" src="assets/avatar.jpg" alt="">
+          <div class="pf-name">يوسف <span class="chip blue" style="font-size:10px">⭐ عضو مميز</span></div>
+          <div class="pf-handle">@yusuf_anime · المستوى 12</div>
+          <p class="pf-bio">أوتاكو منذ 2010 · أكتب مراجعات · أحب الدراما النفسية والميكا ⚡</p>
+          <div class="pf-stats">
+            <div class="pf-stat"><b>1,248</b><span>متابع</span></div>
+            <div class="pf-stat"><b>342</b><span>يتابع</span></div>
+            <div class="pf-stat"><b>87</b><span>أنمي</span></div>
+            <div class="pf-stat"><b style="color:var(--rating)">8.6</b><span>متوسط تقييمك</span></div>
+          </div>
+          <div class="pf-btns">
+            <button class="btn primary" style="height:44px;font-size:14px">تعديل الملف</button>
+            <button class="btn ghost" style="height:44px;font-size:14px">مشاركة</button>
+          </div>
+        </div>
+        <div class="pf-tabs">
+          <span class="pf-tab on">النشاط</span><span class="pf-tab">المكتبة</span><span class="pf-tab">المراجعات</span><span class="pf-tab">عنّي</span>
+        </div>
+        <div class="pad" style="padding-top:12px">
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b style="font-size:14px">أنهى Sousou no Frieren</b><span style="font-size:11px;color:var(--text-3)">اليوم</span>
+            </div>
+            <p style="font-size:13px;color:var(--text-2);margin-top:4px">تقييم 9/10 — «رحلة لا تُنسى»</p>
+          </div>
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b style="font-size:14px">بدأ Mecha Requiem</b><span style="font-size:11px;color:var(--text-3)">أمس</span>
+            </div>
+            <p style="font-size:13px;color:var(--text-2);margin-top:4px">الحلقة 4 من 12</p>
+          </div>
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b style="font-size:14px">نشر مراجعة</b><span style="font-size:11px;color:var(--text-3)">قبل 3 أيام</span>
+            </div>
+            <p style="font-size:13px;color:var(--text-2);margin-top:4px">Sunset Line — 8/10 · 214 إعجاب</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════ CHAT ════ -->
+      <section class="screen" id="s-chat" hidden>
+        <div class="home-head"><h2>الدردشة</h2><span class="chip green">12 متصل</span></div>
+        <div class="search-pill" style="margin-bottom:4px">🔍 ابحث في المحادثات</div>
+        <div class="chat-row">
+          <div class="av-wrap"><img class="avatar" src="assets/avatar.jpg" style="width:52px;height:52px" alt=""><span class="dot"></span></div>
+          <div class="chat-mid"><div class="chat-nm">عبدالله</div><div class="chat-ls">شفت الحلقة الجديدة؟ 🔥</div></div>
+          <div class="chat-right"><div class="chat-tm">9:32</div><span class="unread">2</span></div>
+        </div>
+        <div class="chat-row">
+          <div class="av-wrap"><div class="avatar" style="width:52px;height:52px;display:grid;place-items:center;background:var(--secondary-container);color:var(--on-secondary-container);font-weight:800">ر</div></div>
+          <div class="chat-mid"><div class="chat-nm">ريم</div><div class="chat-ls">أرسلت صورة</div></div>
+          <div class="chat-right"><div class="chat-tm">أمس</div></div>
+        </div>
+        <div class="chat-row">
+          <div class="av-wrap"><div class="avatar" style="width:52px;height:52px;display:grid;place-items:center;background:var(--primary-container);color:var(--on-primary-container);font-weight:800">ف</div><span class="dot"></span></div>
+          <div class="chat-mid"><div class="chat-nm">فريق الميكا</div><div class="chat-ls">Karim: الليلة نكمل الماراثون</div></div>
+          <div class="chat-right"><div class="chat-tm">أمس</div><span class="unread">5</span></div>
+        </div>
+        <div class="chat-row">
+          <div class="av-wrap"><div class="avatar" style="width:52px;height:52px;display:grid;place-items:center;background:var(--success-container);color:var(--on-success-container);font-weight:800">د</div></div>
+          <div class="chat-mid"><div class="chat-nm">الدعم الفني</div><div class="chat-ls">تم حل التذكرة #4821 ✅</div></div>
+          <div class="chat-right"><div class="chat-tm">الأحد</div></div>
+        </div>
+        <div class="chat-row">
+          <div class="av-wrap"><div class="avatar" style="width:52px;height:52px;display:grid;place-items:center;background:var(--error-container);color:#FECACA;font-weight:800">م</div></div>
+          <div class="chat-mid"><div class="chat-nm">محمد</div><div class="chat-ls" style="color:var(--text-off)">أنت حظرت هذا المستخدم</div></div>
+          <div class="chat-right"><div class="chat-tm">12/8</div></div>
+        </div>
+      </section>
+
+      <!-- ════ NOTIFICATIONS ════ -->
+      <section class="screen" id="s-notifications" hidden>
+        <div class="home-head"><h2>الإشعارات</h2><span class="see-all">تحديد الكل كمقروء</span></div>
+        <div class="ntf-date">اليوم</div>
+        <div class="ntf unseen">
+          <div class="ic" style="background:var(--primary-container);color:var(--on-primary-container)">💬</div>
+          <div class="tx"><p><b>عبدالله</b> علّق على منشورك: «أفضل لقطة…»</p><div class="tm">قبل 12 دقيقة</div></div>
+        </div>
+        <div class="ntf unseen">
+          <div class="ic" style="background:var(--secondary-container);color:var(--on-secondary-container)">⭐</div>
+          <div class="tx"><p><b>Mirai</b> الحلقة 3 من <b>Sousou no Frieren</b> متاحة الآن</p><div class="tm">قبل ساعة</div></div>
+        </div>
+        <div class="ntf">
+          <div class="ic" style="background:var(--success-container);color:var(--on-success-container)">❤️</div>
+          <div class="tx"><p><b>ريم</b> و<b>23 آخرين</b> أعجبوا بمراجعتك</p><div class="tm">قبل 4 ساعات</div></div>
+        </div>
+        <div class="ntf-date">هذا الأسبوع</div>
+        <div class="ntf">
+          <div class="ic" style="background:var(--rating-container);color:var(--on-rating-container)">🏆</div>
+          <div class="tx"><p>ارتقيت إلى <b>المستوى 12</b> — فُتح شارة «ناقد»</p><div class="tm">الأحد</div></div>
+        </div>
+        <div class="ntf">
+          <div class="ic" style="background:var(--error-container);color:#FECACA">🛡️</div>
+          <div class="tx"><p>تمت الموافقة على بلاغك — <b>تم حذف المحتوى</b></p><div class="tm">السبت</div></div>
+        </div>
+      </section>
+
+      <!-- ════ SETTINGS ════ -->
+      <section class="screen" id="s-settings" hidden>
+        <div class="home-head"><h2>الإعدادات</h2></div>
+        <div class="set-group card">
+          <div class="set-row"><div class="ic">🎨</div><div style="flex:1"><div class="lb">مظهر التطبيق</div><div class="sub">داكن سينمائي (افتراضي)</div></div><span class="end">←</span></div>
+          <div class="set-row"><div class="ic">🌐</div><div style="flex:1"><div class="lb">اللغة</div><div class="sub">العربية</div></div><span class="end">←</span></div>
+          <div class="set-row"><div class="ic">🔔</div><div style="flex:1"><div class="lb">الإشعارات</div></div><div class="sw on"></div></div>
+          <div class="set-row"><div class="ic">▶️</div><div style="flex:1"><div class="lb">تشغيل تلقائي للمعاينات</div></div><div class="sw"></div></div>
+        </div>
+        <div class="set-group card">
+          <div class="set-row"><div class="ic">🔒</div><div style="flex:1"><div class="lb">الخصوصية والأمان</div></div><span class="end">←</span></div>
+          <div class="set-row"><div class="ic">💾</div><div style="flex:1"><div class="lb">التخزين المؤقت</div><div class="sub">412 ميجابايت</div></div><span class="end">←</span></div>
+          <div class="set-row"><div class="ic">🛡️</div><div style="flex:1"><div class="lb">حساب المشرف</div></div><span class="end">←</span></div>
+        </div>
+        <div class="set-group card" style="margin-bottom:20px">
+          <div class="set-row"><div class="ic">ℹ️</div><div style="flex:1"><div class="lb">حول Mirai</div><div class="sub">الإصدار 2.4.1</div></div><span class="end">←</span></div>
+        </div>
+      </section>
+
+      <!-- ════ DESIGN SYSTEM ════ -->
+      <section class="screen" id="s-ds" hidden>
+        <div class="home-head"><h2>نظام التصميم</h2><span class="chip blue">Tokens v1.0</span></div>
+        <div class="sec-head" style="padding-top:8px"><h3>الألوان الأساسية</h3></div>
+        <div class="swatches">
+          <div class="sw-c"><div class="cl" style="background:#0B0D10"></div><div class="in"><b>Background</b><span>#0B0D10</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#11151A"></div><div class="in"><b>Surface</b><span>#11151A</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#151A20"></div><div class="in"><b>Card</b><span>#151A20</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#1A2028"></div><div class="in"><b>Elevated</b><span>#1A2028</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#00A3FF"></div><div class="in"><b>Primary</b><span>#00A3FF</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#7C4DFF"></div><div class="in"><b>Secondary</b><span>#7C4DFF</span></div></div>
+        </div>
+        <div class="sec-head"><h3>دلالية</h3></div>
+        <div class="swatches">
+          <div class="sw-c"><div class="cl" style="background:#34D399"></div><div class="in"><b>Success</b><span>#34D399</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#FBBF24"></div><div class="in"><b>Warning</b><span>#FBBF24</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#F87171"></div><div class="in"><b>Error</b><span>#F87171</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#FFC53D"></div><div class="in"><b>Rating Gold</b><span>#FFC53D</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#A8B3C4"></div><div class="in"><b>Text 2</b><span>#A8B3C4</span></div></div>
+          <div class="sw-c"><div class="cl" style="background:#232B35"></div><div class="in"><b>Border</b><span>#232B35</span></div></div>
+        </div>
+        <div class="sec-head"><h3>التايبوغرافي (11 مستوى)</h3></div>
+        <div class="card" style="margin:0 16px">
+          <div class="type-row"><span class="t" style="font-size:26px;font-weight:800">Display 26</span><span class="m">عنوان تفاصيل الأنمي</span></div>
+          <div class="type-row"><span class="t" style="font-size:22px;font-weight:800">Title XL 22</span><span class="m">عناوين الشاشات</span></div>
+          <div class="type-row"><span class="t" style="font-size:18px;font-weight:800">Title L 18</span><span class="m">رؤوس الأقسام</span></div>
+          <div class="type-row"><span class="t" style="font-size:16px;font-weight:700">Title M 16</span><span class="m">عناوين البطاقات</span></div>
+          <div class="type-row"><span class="t" style="font-size:15px;font-weight:700">Body L 15</span><span class="m">نص مُبرَز</span></div>
+          <div class="type-row"><span class="t" style="font-size:14px">Body 14</span><span class="m">النص الافتراضي</span></div>
+          <div class="type-row"><span class="t" style="font-size:13px">Body S 13</span><span class="m">قوائم كثيفة</span></div>
+          <div class="type-row"><span class="t" style="font-size:12px;color:var(--text-3)">Caption 12</span><span class="m">بيانات وصفية</span></div>
+          <div class="type-row"><span class="t" style="font-size:11px;color:var(--text-3)">Overline 11</span><span class="m">شارات</span></div>
+        </div>
+        <div class="sec-head"><h3>الأنصاف (6 قيم فقط)</h3></div>
+        <div class="radius-demo">
+          <div class="rad" style="border-radius:6px">6</div>
+          <div class="rad" style="border-radius:8px">8</div>
+          <div class="rad" style="border-radius:12px">12</div>
+          <div class="rad" style="border-radius:16px">16</div>
+          <div class="rad" style="border-radius:20px">20</div>
+          <div class="rad" style="border-radius:999px">Full</div>
+        </div>
+        <div class="sec-head"><h3>الأزرار</h3></div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding:0 16px">
+          <button class="btn primary">🔖 أضف للمكتبة — Primary</button>
+          <button class="btn ghost" style="height:48px;font-size:14px">متابعة — Outlined</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="chip gold">★ 8.9 تقييم</span>
+            <span class="chip green">● يُعرض الآن</span>
+            <span class="chip">TV</span>
+            <span class="chip blue">قادم</span>
+          </div>
+        </div>
+        
+        <div class="sec-head"><h3>طقم الأيقونات الموحّد (20 أيقونة vector)</h3><span class="chip blue">24dp · tintable</span></div>
+        <div class="icon-grid">
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg><span>رجوع</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg><span>مشاركة</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg><span>مكتبة</span></div>
+          <div class="ig gold"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><span>تقييم</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>مفضلة</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>مجتمع</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>شوهدت</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg><span>إنشاء</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>الرئيسية</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/></svg><span>استكشاف</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>منشورات</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>حسابي</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>بحث</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><span>إشعارات</span></div>
+          <div class="ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>معلومات</span></div>
+          <div class="ig err"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><span>خطأ</span></div>
+        </div>
+        <div class="sec-head"><h3>لماذا هذا أفضل من الوضع الحالي؟</h3></div>
+        <div style="padding:0 16px 20px">
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <p style="font-size:13px;line-height:21px;color:var(--text-2)">✓ <b style="color:var(--text-1)">Vector بدل PNG المتناثرة</b> — حِدة كاملة على كل الشاشات (التطبيق الحالي فيه 432 PNG و16 WebP مشفّرة الأسماء بأحجام وثقل مختلف)</p>
+          </div>
+          <div class="card" style="padding:14px;margin-bottom:10px">
+            <p style="font-size:13px;line-height:21px;color:var(--text-2)">✓ <b style="color:var(--text-1)">قابلة للتلوين بالتوكنات</b> — أيقونة واحدة تعمل: ثانوي في العادي، Primary عند التحديد، ذهبي للتقييم — بدل 3 نسخ PNG بألوان مختلفة</p>
+          </div>
+          <div class="card" style="padding:14px">
+            <p style="font-size:13px;line-height:21px;color:var(--text-2)">✓ <b style="color:var(--text-1)">شبكة 24dp موحّدة + وزن خط واحد</b> — نفس السماكة البصرية في كل التطبيق</p>
+          </div>
+        </div>
+        <div class="sec-head"><h3>الحالات</h3></div>
+        <div class="states-demo">
+          <div class="state-box"><div class="sk" style="width:44px;height:44px;border-radius:50%;margin:0 auto"></div><div class="sk" style="width:70px;height:10px;margin:8px auto 0"></div><p>تحميل</p></div>
+          <div class="state-box"><div class="em">📭</div><p>لا توجد نتائج</p></div>
+          <div class="state-box"><div class="em" style="color:var(--error)">⚠️</div><p>حدث خطأ + إعادة</p></div>
+        </div>
+        <div style="height:20px"></div>
+      </section>
+
+      <!-- ════ BEFORE / AFTER ════ -->
+      <section class="screen" id="s-ba" hidden>
+        <div class="home-head"><h2>قبل ← بعد</h2></div>
+        <div class="ba-wrap">
+          <div class="ba old">
+            <div class="hd"><span>قبل — الحالي</span><span style="font-size:11px;font-weight:400;color:#7B83A0">من ملفاتك</span></div>
+            <div class="bd">
+              <div class="ba-item"><span class="note" style="color:#FF5252">✗ زر نيون #00FF87 بارتفاع 57dp</span><div class="o-cta">أضف للمكتبة</div></div>
+              <div class="ba-item"><span class="note" style="color:#FF5252">✗ بطاقة زجاجية #1AFFFFFF + حد #33FFFFFF</span>
+                <div class="o-glass"><div class="av2"></div><div><p style="font-weight:700">فريرين</p><p style="font-size:11px;color:#B3FFFFFF">フリーレン</p></div></div>
+              </div>
+              <div class="ba-item"><span class="note" style="color:#FF5252">✗ عنوان 23sp + رماديات مختلفة (9CA3AF · 7B83A0 · 8E8E93)</span>
+                <div class="o-title">Sousou no Frieren</div><div class="o-txt" style="font-size:10px">葬送のフリーレン — نص ثانوي 9sp غير مقروء</div>
+              </div>
+              <div class="ba-item"><span class="note" style="color:#FF5252">✗ شريط تقييم برتقالي #FAA751 + نجوم #F59E0B</span>
+                <div style="height:6px;border-radius:3px;background:#1E293B;position:relative"><div style="position:absolute;inset:0;width:70%;border-radius:3px;background:#FAA751"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ba new">
+            <div class="hd"><span>بعد — الجديد</span><span class="chip blue" style="font-size:10px">Tokens</span></div>
+            <div class="bd">
+              <div class="ba-item"><span class="note" style="color:var(--success)">✓ Primary #00A3FF · Pill 52dp · AA</span><div class="n-cta">🔖 أضف للمكتبة</div></div>
+              <div class="ba-item"><span class="note" style="color:var(--success)">✓ سطح معتم #151A20 + حد #232B35</span>
+                <div class="n-card"><img class="avatar" src="assets/avatar.jpg" style="width:40px;height:40px" alt=""><div><p>فريرين</p><p style="font-size:11px;color:var(--text-3)">フリーレン</p></div></div>
+              </div>
+              <div class="ba-item"><span class="note" style="color:var(--success)">✓ Display 26sp + سلّم رمادي واحد</span>
+                <div class="n-title">Sousou no Frieren</div><div class="n-txt">葬送のフリーレン — نص ثانوي 12sp مقروء</div>
+              </div>
+              <div class="ba-item"><span class="note" style="color:var(--success)">✓ ذهبي موحّد #FFC53D لنظام التقييم كله</span>
+                <div style="height:5px;border-radius:3px;background:var(--border);position:relative"><div style="position:absolute;inset:0;width:70%;border-radius:3px;background:var(--rating)"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px"></div>
+      </section>
+
+    </div>
+    <div class="bnav">
+      <div class="ni on" data-s="home"><div class="ic">⌂</div>الرئيسية</div>
+      <div class="ni" data-s="explore"><div class="ic">✦</div>استكشاف</div>
+      <div class="ni" data-s="posts"><div class="ic">✎</div>المنشورات</div>
+      <div class="ni" data-s="profile"><div class="ic">◉</div>حسابي</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ NOTES ═══════════ -->
+  <div class="notes">
+    <h2 id="note-title">تفاصيل الأنمي <span class="badge">أولوية قصوى ⭐</span></h2>
+    <p class="sub" id="note-sub">Preserve → Improve → Unify · نفس IDs ونفس السلوك، تصميم أفخم</p>
+    <div id="notes-body"></div>
+    <div class="mini-toc" style="margin-top:18px">
+      <span class="t">📁 res/values — 8 ملفات رموز</span><span class="t">📁 res/drawable — 48 ملف</span>
+      <span class="t">📁 res/color — 9 ملفات</span><span class="t">📁 layouts — 11 تخطيطاً + IDS_MAP</span>
+      <span class="t">📄 DESIGN_AUDIT.md</span><span class="t">📄 README_INTEGRATION.md</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const NOTES = {
+ details:{t:"تفاصيل الأنمي",s:"Preserve → Improve → Unify · نفس ids ونفس السلوك البنيوي",items:[
+  ["Hero سينمائي محفوظ بالكامل","الـ CollapsingToolbar 500dp مع parallax <span class='mono'>0.7</span> و<span class='mono'>scrimAnimationDuration 300</span> كما هو — تحسين الـ scrim إلى 3 مراحل (شفاف ← 60% ← الخلفية) لقراءة أفضل فوق أي keyart."],
+  ["بوستر فاخر","110×165 (نسبة 2:3 محفوظة) · نصف قطر 12 موحّد · ظل مخفّض من 14 إلى 12 مع حد شعري — عمق بدون هالة مزعجة."],
+  ["عنوان Display 26sp","بدل 23sp الفردية، ضمن سلّم طباعي كامل 11 مستوى. العنوان الياباني Caption ثانوي بدل #CBD5E1."],
+  ["شرائح موحّدة","التقييم ذهبي (#FFC53D) · الحالة أخضر دلالي · التصنيف محايد محدد — بدل 4 خلفيات مختلفة غير معرّفة."],
+  ["زر رئيسي هادئ","النيون #00FF87 ← Primary #00A3FF pill بارتفاع 52dp مع أيقونة — أناقة فاخرة وتباين AA."],
+  ["نظام تقييم واحد","شريط التقييم + النجوم كلها ذهبية واحدة. تقييم المجتمع بلون Primary للتمييز. فواصل وأرقام موحّدة."],
+  ["أقسام موحّدة","كل رؤوس الأقسام 18sp + «عرض الكل» 13sp بلون Primary بدل النيون الأخضر."],
+  ["RTL جاهز","كل القياسات start/end · الأرقام داخل <span class='mono'>layoutDirection=ltr</span> لعدم انقلابها."]]},
+ home:{t:"الرئيسية",s:"لقاء موحّد · Rails أفقية · شبكة نظيفة",items:[
+  ["ترحيب + بحث","شريط بحث pill بنفس Token البطاقات، ارتفاع 48dp."],
+  ["استمر بالمشاهدة","صورة 16:9 + شريط تقدم Primary — تحفيز متابعة المشاهدة."],
+  ["الأعلى تقييماً","بطاقات بوستر 2:3 مع شارة ذهبية موحّدة — نفس مكوّن كل الشاشات."]]},
+ explore:{t:"استكشاف",s:"بحث + فلاتر شرائحية + شبكة كثيفة",items:[
+  ["فلاتر Segmented","شرائح pill محايدة، والمفعّلة بحاوية Primary — نفس نمط التاب في كل التطبيق."],
+  ["شبكة 3 أعمدة","بطاقة narrower 150dp ارتفاعاً — كثافة أعلى مع نفس النظام."]]},
+ episodes:{t:"شاشة الحلقة",s:"From AB.xml — نفس البنية (Header + تقييم + محتوى)",items:[
+  ["Header مصغّر","صورة 330dp مع scrim موحّد، عنوان 22sp بدل 20sp، نجوم ذهبية."],
+  ["الإعلانات","خانة NativeAd محفوظة بنفس ID — تصميمها محاط ببطاقة Token."],
+  ["التقييمات","صفوف مستخدمين بحد أدنى لمس 44dp، نجوم ذهبية موحّدة."]]},
+ posts:{t:"المنشورات",s:"From 8Q/9K — نظام واحد لكل أنواع المنشورات",items:[
+  ["شريط إنشاء","بطاقة موحّدة بدل أزرار متناثرة."],
+  ["بطاقة منشور","رأس (صورة + اسم + وقت) · نص 14sp/21 · صورة بحواف 12 · شريط تفاعلات بحدود داخلية."],
+  ["حالة موثّق","شارة خضراء دلالية بدل #0DF20D النيون."]]},
+ profile:{t:"الملف الشخصي",s:"From 88.xml — Glow ring هادئ + إحصائيات",items:[
+  ["غلاف ← صورة","انتقال متدرج للخلفية، حلقة بوستر متحفظة بدل glow قوي."],
+  ["إحصائيات","4 أعمدة بمحاذاة أرقام ltr، متوسط تقييم ذهبي — تمييز ذكي."],
+  ["تاب موحّد","مؤشر Primary 3dp — نفس مكوّن TabLayout في كل التطبيق."]]},
+ chat:{t:"الدردشة",s:"From tL/g8 — قائمة محادثات واضحة",items:[
+  ["صف محادثة","أفاتار 52 + نقطة اتصال خضراء دلالية + طابع زمني ltr."],
+  ["غير مقروء","شارة Primary بدل الأزرار الفتاة المتناثرة."],
+  ["مكفوف/محظور","حالة نصية خافتة — بدل صف يبدو قابلاً للنقر."]]},
+ notifications:{t:"الإشعارات",s:"مجمّعة بالزمن بأيقونات دلالية",items:[
+  ["تجميع زمني","اليوم / هذا الأسبوع — رؤوس 12sp ثانوية."],
+  ["أيقونة سياقية","حاوية ملونة دلالياً (تفاعل/إصدار/إدارة) بدل أيقونة عشوائية."],
+  ["غير المقروء","حلقة Primary حول الأيقونة — تمييز أنيق بلا خلفيات صارخة."]]},
+ settings:{t:"الإعدادات",s:"From qB.xml — مجموعات بطاقات",items:[
+  ["مجموعات منطقية","بطاقات بحواف 16 مع فواصل داخلية 1dp — بدل قائمة طويلة متصلة."],
+  ["صف إعداد","أيقونة بحاوية + عنوان 14sp + وصف 11sp + مساحة نهاية (سهم/مفتاح)."],
+  ["مفاتيح","مفتاح Material بلون Primary موحّد."]]},
+ ds:{t:"نظام التصميم",s:"10 مجموعات رموز · 48 drawable · كل شيء Tokens",items:[
+  ["قيم حرفية صفر","لا يوجد لون أو حجم مكتوب يدوياً في أي تخطيط جديد — كل شيء <span class='mono'>@color/mirai_*</span> و<span class='mono'>@dimen/*</span>."],
+  ["سلّم أنصاف 6 قيم","6 · 8 · 12 · 16 · 20 · Full — بدل 14 قيمة متضاربة."],
+  ["مسافة 4dp grid","2 · 4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 فقط."],
+  ["خطوط محفوظة","Noto Sans Arabic UI + Roboto Medium كما هي في تطبيقك."]]},
+ ba:{t:"قبل / بعد",s:"نفس الشاشة — قراراً بقرار",items:[
+  ["6 أخضر → 1","كل الأخضر النيوني استبدل بـ Primary أو Success الدلالي."],
+  ["زجاج ← سطح","البطاقات الزجاجية #1AFFFFFF استبدلت بسلسلة أسطح معتمة متدرجة."],
+  ["سلم طباعي","23sp الفردية و9sp غير المقروءة دخلت في سلّم 11 مستوى."],
+  ["نظام تقييم ذهبي واحد","#FAA751 و#F59E0B أصبحا #FFC53D واحدة."]]}
+};
+const content=document.getElementById('content');
+function show(s){
+  document.querySelectorAll('.screen').forEach(el=>el.hidden=el.id!=='s-'+s);
+  document.querySelectorAll('#switcher .chip-sw').forEach(c=>c.classList.toggle('on',c.dataset.s===s));
+  document.querySelectorAll('.bnav .ni').forEach(n=>n.classList.toggle('on',n.dataset.s===s));
+  content.scrollTop=0;
+  const n=NOTES[s]||{t:'—',s:'',items:[]};
+  document.getElementById('note-title').innerHTML=n.t+(s==='details'?' <span class="badge">أولوية قصوى ⭐</span>':'');
+  document.getElementById('note-sub').textContent=n.s;
+  document.getElementById('notes-body').innerHTML=n.items.map((it,i)=>
+   `<div class="note-card"><div class="h"><span class="n">${i+1}</span>${it[0]}</div><p>${it[1]}</p></div>`).join('');
+}
+document.getElementById('switcher').addEventListener('click',e=>{const c=e.target.closest('.chip-sw');if(c)show(c.dataset.s)});
+document.querySelector('.bnav').addEventListener('click',e=>{const c=e.target.closest('.ni');if(c)show(c.dataset.s)});
+show('details');
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MIRAI DESIGN SYSTEM — ATTRS (legacy bridges so existing ?attr refs keep working) -->
+<resources>
+    <attr name="miraiTextPrimary" format="color" />
+    <attr name="miraiTextSecondary" format="color" />
+    <attr name="miraiBg" format="color" />
+    <attr name="miraiSurface" format="color" />
+    <attr name="miraiCard" format="color" />
+    <attr name="miraiBorder" format="color" />
+    <attr name="miraiIcButtonBg" format="reference" />
+</resources>

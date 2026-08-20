@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  Fk.xml — بطاقة شخصية / طاقم (إعادة تصميم) · Mirai Design System v1.0
+  ──────────────────────────────────────────────────────────────────────
+  PRESERVED: MaterialCardView + GlowProfileView 48dp + name/sub + chip
+  بنفس الأبعاد والـ ids — تستبدل الملف فقط.
+  CHANGED: الزجاج #1AFFFFFF + حد #33FFFFFF ← سطح معتم #151A20 + حد
+  #232B35 (وضوح على كل الخلفيات) · نص 15/12 ← BodyLarge/Caption.
+  ══════════════════════════════════════════════════════════════════════
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/characterCard"
+    style="@style/Widget.Mirai.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_sm">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_m">
+
+        <com.mirai.anime.core.ui.widgets.GlowProfileView
+            android:id="@id/characterAvatar"
+            android:layout_width="@dimen/avatar_m"
+            android:layout_height="@dimen/avatar_m"
+            app:innerPadding="2dp"
+            app:strokeWidth="@dimen/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:id="@id/characterInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_m"
+            android:layout_marginEnd="@dimen/space_sm"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/characterRole"
+            app:layout_constraintStart_toEndOf="@id/characterAvatar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@id/characterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Mirai.BodyLarge"
+                android:textColor="@color/mirai_text_primary"
+                tools:text="Frieren" />
+
+            <TextView
+                android:id="@id/characterSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Mirai.Caption"
+                tools:text="フリーレン · Main" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/characterRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mirai_bg_chip"
+            android:paddingHorizontal="@dimen/space_sm"
+            android:paddingVertical="@dimen/space_xs"
+            android:textAppearance="@style/TextAppearance.Mirai.Caption"
+            android:textColor="@color/mirai_text_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="رئيسي" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

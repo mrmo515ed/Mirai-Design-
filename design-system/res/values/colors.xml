@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  MIRAI DESIGN SYSTEM — COLOR TOKENS  v1.0
+  Premium Anime Social Platform · Dark + Cinematic + Modern + Elegant
+  ──────────────────────────────────────────────────────────────────────
+  RULES
+  1. Layouts NEVER hardcode hex again — always reference a token.
+  2. Surfaces are opaque dark neutrals (NOT white-alpha glass):
+     Background #0B0D10 → Surface #11151A → Card #151A20 → Elevated #1A2028
+  3. One accent pair only: Primary #00A3FF (action/trust) and
+     Secondary #7C4DFF (identity/premium). Semantic colors carry state.
+  4. White-alpha values are reserved EXCLUSIVELY for scrims/overlays
+     on top of imagery — never for component surfaces.
+  ──────────────────────────────────────────────────────────────────────
+  MIGRATION MAP (old scattered hex → new token)
+    #0A0C10 #121212 #1E1E1E #1A1A1A      → mirai_bg / mirai_surface_*
+    #1AFFFFFF #33FFFFFF (glass cards)    → mirai_card + mirai_border
+    #00FF87 #0DF20D #0DF233 #0CC84F
+    #27DA64 #4CAF50 (6 different greens) → mirai_success
+    #FAA751 #F59E0B                      → mirai_rating / mirai_warning
+    #EF4444 #FF5252 #D32F2F              → mirai_error
+    #9CA3AF #94A3B8 #A0A0A0 #8E8E93
+    #7B83A0 #9E9E9E #888888 #757575 …    → mirai_text_secondary/_tertiary
+    #E0E0E0 #E2E8F0 #C1C6D6 #D1D5DB      → mirai_text_primary
+  ══════════════════════════════════════════════════════════════════════
+-->
+<resources>
+
+    <!-- ═══════════════ 1 · BRAND ═══════════════ -->
+    <color name="mirai_primary">#FF00A3FF</color>            <!-- action, links, active nav -->
+    <color name="mirai_primary_dim">#FF0089D6</color>        <!-- pressed state -->
+    <color name="mirai_primary_container">#FF003252</color>  <!-- chip / tinted surface -->
+    <color name="mirai_on_primary">#FF04121C</color>
+    <color name="mirai_on_primary_container">#FFB3E2FF</color>
+    <color name="mirai_primary_alpha_08">#1400A3FF</color>   <!-- subtle washes -->
+    <color name="mirai_primary_alpha_12">#1F00A3FF</color>
+    <color name="mirai_primary_alpha_24">#3D00A3FF</color>
+
+    <color name="mirai_secondary">#FF7C4DFF</color>          <!-- premium identity -->
+    <color name="mirai_secondary_dim">#FF683AE0</color>
+    <color name="mirai_secondary_container">#FF2A2050</color>
+    <color name="mirai_on_secondary">#FFFFFF</color>
+    <color name="mirai_on_secondary_container">#FFE4DBFF</color>
+    <color name="mirai_secondary_alpha_08">#147C4DFF</color>
+    <color name="mirai_secondary_alpha_12">#1F7C4DFF</color>
+    <color name="mirai_secondary_alpha_24">#3D7C4DFF</color>
+
+    <!-- ═══════════════ 2 · SURFACES ═══════════════ -->
+    <color name="mirai_bg">#FF0B0D10</color>                 <!-- screen background -->
+    <color name="mirai_surface">#FF11151A</color>            <!-- sheets, app bars -->
+    <color name="mirai_card">#FF151A20</color>               <!-- resting cards -->
+    <color name="mirai_elevated">#FF1A2028</color>           <!-- menus, dialogs -->
+    <color name="mirai_surface_inverse">#FFE9EDF2</color>
+    <color name="mirai_on_inverse">#FF0B0D10</color>
+
+    <!-- ═══════════════ 3 · TEXT ═══════════════ -->
+    <color name="mirai_text_primary">#FFF2F5F9</color>       <!-- titles, values -->
+    <color name="mirai_text_secondary">#FFA8B3C4</color>     <!-- body copy -->
+    <color name="mirai_text_tertiary">#FF6B7686</color>      <!-- captions, labels -->
+    <color name="mirai_text_disabled">#FF47505E</color>
+    <color name="mirai_text_on_color">#FF04121C</color>      <!-- on primary -->
+
+    <!-- ═══════════════ 4 · BORDERS / DIVIDERS ═══════════════ -->
+    <color name="mirai_border">#FF232B35</color>             <!-- default 1dp outline -->
+    <color name="mirai_border_subtle">#FF1E252E</color>      <!-- inner dividers -->
+    <color name="mirai_border_strong">#FF2E3947</color>      <!-- inputs focus -->
+    <color name="mirai_divider">#FF1E252E</color>
+
+    <!-- ═══════════════ 5 · SEMANTIC STATE ═══════════════ -->
+    <color name="mirai_success">#FF34D399</color>            <!-- online, aired, done -->
+    <color name="mirai_success_container">#FF0E3327</color>
+    <color name="mirai_on_success_container">#FFB9F4DD</color>
+
+    <color name="mirai_warning">#FFFBBF24</color>
+    <color name="mirai_warning_container">#FF3A2E08</color>
+    <color name="mirai_on_warning_container">#FFFDE9B8</color>
+
+    <color name="mirai_error">#FFF87171</color>
+    <color name="mirai_error_dim">#FFDC5A5A</color>
+    <color name="mirai_error_container">#FF3B1717</color>
+    <color name="mirai_on_error_container">#FFFECACA</color>
+
+    <color name="mirai_info">#FF38BDF8</color>
+    <color name="mirai_info_container">#FF0A2C3E</color>
+
+    <!-- ═══════════════ 6 · ANIME DOMAIN ═══════════════ -->
+    <color name="mirai_rating">#FFFFC53D</color>             <!-- star gold, score -->
+    <color name="mirai_rating_container">#FF3D2E0A</color>
+    <color name="mirai_on_rating_container">#FFFFE9AE</color>
+    <color name="mirai_airing">#FF34D399</color>             <!-- "يُعرض الآن" -->
+    <color name="mirai_completed">#FF6B7686</color>          <!-- "مكتمل" -->
+    <color name="mirai_upcoming">#FF7C4DFF</color>           <!-- "قادم" -->
+
+    <!-- ═══════════════ 7 · SCRIMS / OVERLAYS (imagery only) ═══════════════ -->
+    <color name="mirai_scrim_hero_top">#66000000</color>
+    <color name="mirai_scrim_hero_mid">#99000000</color>
+    <color name="mirai_scrim_hero_bottom">#F20B0D10</color>
+    <color name="mirai_scrim_press">#1AFFFFFF</color>
+    <color name="mirai_scrim_sheet">#80000000</color>
+    <color name="mirai_scrim_toolbar">#B30B0D10</color>
+
+    <!-- ═══════════════ 8 · SHIMMER / SKELETON ═══════════════ -->
+    <color name="mirai_shimmer_base">#FF151A20</color>
+    <color name="mirai_shimmer_highlight">#FF232B35</color>
+
+    <!-- ═══════════════ 9 · NAV / SELECTION ═══════════════ -->
+    <color name="mirai_nav_inactive">#FF6B7686</color>
+    <color name="mirai_nav_active_pill">#1F00A3FF</color>
+    <color name="mirai_selected_track">#2400A3FF</color>
+
+    <!-- ═══════════════ 10 · MEDIA OVERLAYS (poster/card footers) ═══════════════ -->
+    <color name="mirai_scrim_media_strong">#E6000000</color>
+    <color name="mirai_scrim_media_soft">#66000000</color>
+    <color name="mirai_icon_btn_overlay">#B31A2028</color>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mirai · genre tag chip (rail item) -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/genreChip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_sm"
+    android:background="@drawable/mirai_bg_chip"
+    android:paddingHorizontal="@dimen/space_m"
+    android:paddingVertical="@dimen/space_s"
+    android:textAppearance="@style/TextAppearance.Mirai.Caption"
+    android:textColor="@color/mirai_text_secondary"
+    tools:text="خيال علمي" />

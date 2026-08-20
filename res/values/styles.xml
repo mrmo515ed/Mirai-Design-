@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MIRAI DESIGN SYSTEM — COMPONENT STYLES  v1.0
+  One component = one style. No per-screen reinvention.
+  All styles reference tokens only — zero hardcoded values.
+-->
+<resources>
+
+    <!-- ═══════════════════ CARDS ═══════════════════
+         Flat, bordered, opaque. Elevation stays ≤2dp;
+         hierarchy comes from surface tone + 1dp border. -->
+    <style name="Widget.Mirai.CardView" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/mirai_card</item>
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardElevation">@dimen/elev_card</item>
+        <item name="strokeColor">@color/mirai_border</item>
+        <item name="strokeWidth">@dimen/divider</item>
+        <item name="android:foreground">@drawable/mirai_ripple_card</item>
+        <item name="android:checkable">false</item>
+    </style>
+
+    <style name="Widget.Mirai.CardView.Tonal" parent="Widget.Mirai.CardView">
+        <item name="cardBackgroundColor">@color/mirai_surface</item>
+        <item name="strokeColor">@color/mirai_border_subtle</item>
+    </style>
+
+    <!-- Media card: poster + footer info -->
+    <style name="Widget.Mirai.CardView.Media" parent="Widget.Mirai.CardView">
+        <item name="cardCornerRadius">@dimen/radius_m</item>
+        <item name="cardElevation">@dimen/elev_none</item>
+    </style>
+
+    <!-- Cinematic floating card: trailer, hero imagery -->
+    <style name="Widget.Mirai.CardView.Cinematic" parent="Widget.Mirai.CardView">
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardElevation">@dimen/elev_raised</item>
+        <item name="strokeColor">@color/mirai_border_subtle</item>
+    </style>
+
+    <!-- ═══════════════════ BUTTONS ═══════════════════ -->
+    <style name="Widget.Mirai.Button" parent="Widget.Material3.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+        <item name="android:textColor">@color/mirai_on_primary</item>
+        <item name="backgroundTint">@color/mirai_btn_primary_bg</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+        <item name="android:minHeight">@dimen/btn_height</item>
+        <item name="android:paddingStart">@dimen/space_xl</item>
+        <item name="android:paddingEnd">@dimen/space_xl</item>
+        <item name="iconTint">@color/mirai_on_primary</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Secondary action: bordered, quiet -->
+    <style name="Widget.Mirai.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="strokeColor">@color/mirai_border_strong</item>
+        <item name="strokeWidth">@dimen/divider</item>
+        <item name="backgroundTint">@color/mirai_surface</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+        <item name="android:minHeight">@dimen/btn_height</item>
+    </style>
+
+    <!-- Premium (secondary brand): rare, for identity moments -->
+    <style name="Widget.Mirai.Button.Secondary" parent="Widget.Mirai.Button">
+        <item name="android:textColor">@color/mirai_on_secondary</item>
+        <item name="backgroundTint">@color/mirai_secondary</item>
+        <item name="iconTint">@color/mirai_on_secondary</item>
+    </style>
+
+    <!-- Tonal: low-emphasis, e.g. «متابعة» -->
+    <style name="Widget.Mirai.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+        <item name="android:textColor">@color/mirai_on_primary_container</item>
+        <item name="backgroundTint">@color/mirai_primary_container</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+        <item name="android:minHeight">@dimen/btn_height</item>
+    </style>
+
+    <style name="Widget.Mirai.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.Action</item>
+        <item name="android:textColor">@color/mirai_primary</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+    </style>
+
+    <!-- Square icon button (share, favorite, back) — 44dp minimum -->
+    <style name="Widget.Mirai.Button.Icon" parent="Widget.Material3.Button.IconButton.Filled">
+        <item name="backgroundTint">@drawable/mirai_bg_icon_button</item>
+        <item name="iconTint">@color/mirai_text_primary</item>
+        <item name="android:minWidth">@dimen/icon_min</item>
+        <item name="android:minHeight">@dimen/icon_min</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Mirai.S</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <!-- ═══════════════════ CHIPS / TAGS ═══════════════════ -->
+    <style name="Widget.Mirai.Chip" parent="Widget.Material3.Chip.Assist">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.Caption</item>
+        <item name="android:textColor">@color/mirai_text_secondary</item>
+        <item name="chipBackgroundColor">@color/mirai_surface</item>
+        <item name="chipStrokeColor">@color/mirai_border</item>
+        <item name="chipStrokeWidth">@dimen/divider</item>
+        <item name="chipCornerRadius">@dimen/radius_s</item>
+        <item name="android:checkable">false</item>
+        <item name="chipMinTouchTargetSize">@dimen/touch_min</item>
+    </style>
+
+    <!-- Highlight chip: rating badge, «يُعرض الآن» -->
+    <style name="Widget.Mirai.Chip.Highlight" parent="Widget.Mirai.Chip">
+        <item name="android:textColor">@color/mirai_on_primary_container</item>
+        <item name="chipBackgroundColor">@color/mirai_primary_container</item>
+        <item name="chipStrokeColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Mirai.Chip.Rating" parent="Widget.Mirai.Chip">
+        <item name="android:textColor">@color/mirai_on_rating_container</item>
+        <item name="chipBackgroundColor">@color/mirai_rating_container</item>
+        <item name="chipStrokeColor">@android:color/transparent</item>
+    </style>
+
+    <!-- ═══════════════════ SECTION HEADER ═══════════════════
+         «الحلقات» + «عرض الكل» pattern used everywhere -->
+    <style name="Widget.Mirai.SectionHeader" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.TitleLarge</item>
+        <item name="android:paddingStart">@dimen/space_l</item>
+        <item name="android:paddingEnd">@dimen/space_l</item>
+        <item name="android:paddingTop">@dimen/space_xl</item>
+        <item name="android:paddingBottom">@dimen/space_sm</item>
+    </style>
+
+    <!-- ═══════════════════ TEXT ═══════════════════ -->
+    <style name="Widget.Mirai.TextView" parent="android:Widget.Material.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.Body</item>
+        <item name="android:paddingStart">0dp</item>
+    </style>
+
+    <!-- ═══════════════════ INPUTS ═══════════════════ -->
+    <style name="Widget.Mirai.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/mirai_surface</item>
+        <item name="boxStrokeColor">@color/mirai_input_stroke</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_s</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_s</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_s</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_s</item>
+        <item name="hintTextColor">@color/mirai_primary</item>
+        <item name="android:textColorHint">@color/mirai_text_tertiary</item>
+    </style>
+
+    <style name="Widget.Mirai.TextInputLayout.Filled" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/mirai_card</item>
+        <item name="boxStrokeColor">@color/mirai_input_stroke</item>
+        <item name="hintTextColor">@color/mirai_primary</item>
+    </style>
+
+    <style name="Widget.Mirai.EditText" parent="android:Widget.Material.EditText">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.Body</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:textColorHint">@color/mirai_text_tertiary</item>
+        <item name="android:background">@drawable/mirai_bg_input</item>
+        <item name="android:minHeight">@dimen/input_height</item>
+        <item name="android:paddingStart">@dimen/space_l</item>
+        <item name="android:paddingEnd">@dimen/space_l</item>
+    </style>
+
+    <!-- Search bar -->
+    <style name="Widget.Mirai.SearchBar" parent="">
+        <item name="android:background">@drawable/mirai_bg_search</item>
+        <item name="android:minHeight">@dimen/input_height</item>
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.Body</item>
+        <item name="android:textColor">@color/mirai_text_primary</item>
+        <item name="android:textColorHint">@color/mirai_text_tertiary</item>
+    </style>
+
+    <!-- ═══════════════════ TABS (Premium tabs) ═══════════════════ -->
+    <style name="Widget.Mirai.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="tabIndicatorColor">@color/mirai_primary</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabRippleColor">@color/mirai_primary_alpha_08</item>
+        <item name="tabTextColor">@color/mirai_text_tertiary</item>
+        <item name="tabSelectedTextColor">@color/mirai_text_primary</item>
+        <item name="tabTextAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+        <item name="tabBackground">@android:color/transparent</item>
+        <item name="android:background">@color/mirai_bg</item>
+        <item name="tabIndicatorAnimationDuration">250</item>
+    </style>
+
+    <!-- Segmented filter tabs (MiraiFilterTabs / MiraiSegmentedTabs) -->
+    <style name="Widget.Mirai.SegmentedTabs" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Mirai.BodySmall</item>
+        <item name="android:textColor">@color/mirai_seg_text</item>
+        <item name="backgroundTint">@color/mirai_seg_bg</item>
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+        <item name="android:minHeight">38dp</item>
+    </style>
+
+    <!-- ═══════════════════ TOOLBAR / APP BAR ═══════════════════ -->
+    <style name="Widget.Mirai.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/mirai_surface</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Mirai.Caption</item>
+        <item name="android:elevation">@dimen/elev_none</item>
+        <item name="navigationIconTint">@color/mirai_text_primary</item>
+    </style>
+
+    <!-- Floating overlay toolbar on cinematic heroes -->
+    <style name="Widget.Mirai.Toolbar.Overlay" parent="Widget.Mirai.Toolbar">
+        <item name="android:background">@drawable/mirai_scrim_toolbar</item>
+        <item name="android:titleTextAppearance">@style/TextAppearance.Mirai.TitleMedium</item>
+    </style>
+
+    <!-- ═══════════════════ BOTTOM NAV ═══════════════════ -->
+    <style name="Widget.Mirai.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/mirai_surface</item>
+        <item name="android:minHeight">@dimen/bottom_nav_height</item>
+        <item name="itemIconTint">@color/mirai_nav_item</item>
+        <item name="itemTextColor">@color/mirai_nav_item</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Mirai.BottomNav.Indicator</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="elevation">@dimen/elev_nav</item>
+        <item name="backgroundTint">@color/mirai_surface</item>
+    </style>
+
+    <style name="Widget.Mirai.BottomNav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/mirai_nav_active_pill</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Mirai.Pill</item>
+    </style>
+
+    <!-- ═══════════════════ SHEETS & DIALOGS ═══════════════════ -->
+    <style name="Widget.Mirai.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/mirai_surface</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Mirai.Sheet</item>
+        <item name="behavior_draggable">true</item>
+    </style>
+
+    <style name="Widget.Mirai.Dialog" parent="ThemeOverlay.Material3.Dialog">
+        <item name="colorBackgroundFloating">@color/mirai_elevated</item>
+        <item name="shapeAppearanceCornerSize">@dimen/radius_l</item>
+    </style>
+
+    <!-- ═══════════════════ LISTS ═══════════════════ -->
+    <style name="Widget.Mirai.ListItem" parent="">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:paddingStart">@dimen/space_l</item>
+        <item name="android:paddingEnd">@dimen/space_l</item>
+        <item name="android:paddingTop">@dimen/space_m</item>
+        <item name="android:paddingBottom">@dimen/space_m</item>
+        <item name="android:minHeight">@dimen/touch_min</item>
+    </style>
+
+    <!-- Settings rows -->
+    <style name="Widget.Mirai.ListItem.Settings" parent="Widget.Mirai.ListItem">
+        <item name="android:paddingTop">@dimen/space_l</item>
+        <item name="android:paddingBottom">@dimen/space_l</item>
+    </style>
+
+    <!-- ═══════════════════ PROGRESS / RATING ═══════════════════ -->
+    <style name="Widget.Mirai.RatingBar" parent="">
+        <item name="android:progressTint">@color/mirai_rating</item>
+        <item name="android:progressBackgroundTint">@color/mirai_border_strong</item>
+        <item name="android:secondaryProgressTint">@color/mirai_rating</item>
+        <item name="android:minHeight">@dimen/rating_star</item>
+    </style>
+
+    <style name="Widget.Mirai.SeekBar.Rating" parent="">
+        <item name="isb_thumb_color">@color/mirai_rating</item>
+        <item name="isb_thumb_size">@dimen/rating_seek_thumb</item>
+        <item name="isb_track_progress_color">@color/mirai_rating</item>
+        <item name="isb_track_background_color">@color/mirai_border</item>
+        <item name="isb_tick_marks_color">@color/mirai_border</item>
+        <item name="isb_tick_texts_color">@color/mirai_text_tertiary</item>
+    </style>
+
+    <style name="Widget.Mirai.ProgressBar" parent="">
+        <item name="android:indeterminateTint">@color/mirai_primary</item>
+    </style>
+
+    <!-- ═══════════════════ SHIMMER / SKELETON ═══════════════════ -->
+    <style name="Widget.Mirai.Shimmer" parent="">
+        <item name="shimmer_base_color">@color/mirai_shimmer_base</item>
+        <item name="shimmer_highlight_color">@color/mirai_shimmer_highlight</item>
+        <item name="shimmer_shape">linear</item>
+        <item name="shimmer_angle">0</item>
+        <item name="shimmer_duration">1100</item>
+    </style>
+
+    <!-- ═══════════════════ FAB ═══════════════════ -->
+    <style name="Widget.Mirai.FAB" parent="Widget.Material3.FloatingActionButton">
+        <item name="backgroundTint">@color/mirai_primary</item>
+        <item name="tint">@color/mirai_on_primary</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Mirai.S</item>
+        <item name="android:maxImageSize">24dp</item>
+    </style>
+</resources>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Mirai · StateLayout content (loading / empty / error).
+  Consistent illustration size, single primary CTA, calm copy.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/space_xxxl">
+
+    <!-- Loading: skeleton shimmer, not spinners -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@id/stateLoading"
+        style="@style/Widget.Mirai.Shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/mirai_bg_shimmer_skeleton" />
+            <View
+                android:layout_width="200dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_m"
+                android:background="@drawable/mirai_bg_shimmer_skeleton" />
+            <View
+                android:layout_width="150dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_sm"
+                android:background="@drawable/mirai_bg_shimmer_skeleton" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- Empty -->
+    <LinearLayout
+        android:id="@id/stateEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@id/stateEmptyIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/mirai_ic_empty"
+            app:tint="@color/mirai_text_tertiary"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <TextView
+            android:id="@id/stateEmptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+            tools:text="لا توجد نتائج" />
+
+        <TextView
+            android:id="@id/stateEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.Mirai.Body"
+            tools:text="جرّب كلمات مختلفة أو أزل الفلاتر" />
+    </LinearLayout>
+
+    <!-- Error -->
+    <LinearLayout
+        android:id="@id/stateError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@id/stateErrorIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/mirai_ic_error"
+            app:tint="@color/mirai_error"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <TextView
+            android:id="@id/stateErrorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+            tools:text="حدث خطأ ما" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@id/stateErrorRetry"
+            style="@style/Widget.Mirai.Button.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_l"
+            android:text="@string/retry" />
+    </LinearLayout>
+</LinearLayout>

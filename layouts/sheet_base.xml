@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Mirai · base modal bottom sheet: handle + title + scroll content.
+  Every sheet in the app (filters, share, media actions, admin) extends this.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mirai_bg_bottom_sheet"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/space_m">
+
+    <View
+        android:id="@id/sheetHandle"
+        android:layout_width="@dimen/sheet_handle_width"
+        android:layout_height="@dimen/sheet_handle_height"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/mirai_bg_sheet_handle" />
+
+    <TextView
+        android:id="@id/sheetTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="@dimen/space_l"
+        android:paddingTop="@dimen/space_l"
+        android:paddingBottom="@dimen/space_sm"
+        android:textAppearance="@style/TextAppearance.Mirai.TitleMedium"
+        tools:text="خيارات" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@id/sheetContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/space_xxl" />
+</LinearLayout>
